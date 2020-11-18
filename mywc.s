@@ -168,7 +168,6 @@ endInWord3:
 
     //printf("%7ld %7ld %7ld\n", lLineCount, lWordCount, lCharCount);
     adr x0, printfFormatString
-    ldr x0, [x0]
     adr x1, lCharCount
     ldr x1, [x1]
     adr x2, printfFormatString
@@ -180,7 +179,7 @@ endInWord3:
     //epilogue and return 0
     mov w0, 0
     ldr x30, [sp]
-    add x30, x30, 32
+    add x30, x30, 16
     ret
 
     .size   main, (. - main)
