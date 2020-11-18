@@ -169,11 +169,12 @@ endInWord3:
 
     //printf("%7ld %7ld %7ld\n", lLineCount, lWordCount, lCharCount);
     adr x0, printfFormatString
-    adr x1, lCharCount
+    ldr x0, [x0]
+    adr x1, lLineCount
     ldr x1, [x1]
-    adr x2, printfFormatString
+    adr x2, lWordCount
     ldr x2, [x2]
-    adr x3, lLineCount
+    adr x3, lCharCount
     ldr x3, [x3]
     bl printf
 
