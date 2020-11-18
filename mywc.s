@@ -120,6 +120,7 @@ inWord2: //                                                 inWord2
     beq endInWord2
 
     //iInWord = TRUE;
+    adr x0, iInWord
     mov w1, TRUE
     str w1, [x0]
 
