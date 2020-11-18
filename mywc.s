@@ -63,7 +63,6 @@ mainLoop: //                                                   mainLoop
     //if((iChar = getchar()) == EOF) goto mainLoopEnd;
     adr x0, iChar
     bl getchar
-    ldr x0, [x0]
     cmp x0, EOF
     beq mainLoopEnd
 
