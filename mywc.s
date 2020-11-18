@@ -134,7 +134,7 @@ newLine:
     adr x0, iChar
     ldr w0, [x0]
     adr x1, newLineStr
-    ldr w1, [w1]
+    ldr w1, [x1]
     cmp w0, w1
     bne endNewLine
 
