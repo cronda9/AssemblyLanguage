@@ -61,9 +61,10 @@ main:
 mainLoop: //                                                   mainLoop
     
     //if((iChar = getchar()) == EOF) goto mainLoopEnd;
-    adr x0, iChar
+    adr x1, iChar
     bl getchar
-    cmp x0, EOF
+    str w0, [x1]
+    cmp w0, EOF
     beq mainLoopEnd
 
     //lCharCount++;
@@ -76,17 +77,17 @@ isSpace: //                                                   isSpace
 
     //if (!isspace(iChar)) goto else1;
     adr x0, iChar
-    ldr x0, [x0]
+    ldr w0, [x0]
     bl isspace
-    cmp x0, FALSE
+    cmp w0, FALSE
     beq else1
 
 inWord: //                                                   inWord
 
     //if (!iInWord) goto endInWord;
     adr x0, iInWord
-    ldr x0, [x0]
-    cmp x0, FALSE
+    ldr w0, [x0]
+    cmp w0, FALSE
     beq endInWord
 
     //lWordCount++;
@@ -97,8 +98,8 @@ inWord: //                                                   inWord
 
     //iInWord = FALSE;
     adr x0, iInWord
-    mov x1, FALSE
-    str x1, [x0]
+    mov w1, FALSE
+    str w1, [x0]
 
 endInWord: //                                               ENDInWord
 
@@ -149,9 +150,9 @@ inWord3:
 
     //if (!iInWord) goto endInWord3;
     adr x0, iInWord
-    ldr x0, [x0]
-    mov x1, FALSE
-    cmp x0, x1
+    ldr w0, [x0]
+    mov w1, FALSE
+    cmp w0, x1
     beq endInWord3
 
     //lWordCount++;
