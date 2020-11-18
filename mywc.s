@@ -55,7 +55,7 @@ iChar:
 main:
 
     //prolog
-    sub sp, sp, 32
+    sub sp, sp, 16
     str x30, [sp]
 
 mainLoop: //                                                   mainLoop
@@ -79,7 +79,8 @@ isSpace: //                                                   isSpace
     adr x0, iChar
     ldr w0, [x0]
     bl isspace
-    cmp w0, FALSE
+    mov w1, FALSE
+    cmp w0, w1
     beq else1
 
 inWord: //                                                   inWord
@@ -87,7 +88,8 @@ inWord: //                                                   inWord
     //if (!iInWord) goto endInWord;
     adr x0, iInWord
     ldr w0, [x0]
-    cmp w0, FALSE
+    mov w1, FALSE
+    cmp w0, w1
     beq endInWord
 
     //lWordCount++;
@@ -99,7 +101,7 @@ inWord: //                                                   inWord
     //iInWord = FALSE;
     adr x0, iInWord
     mov w1, FALSE
-    str w1, [x0]
+    str w1, [w0]
 
 endInWord: //                                               ENDInWord
 
@@ -112,13 +114,14 @@ inWord2: //                                                 inWord2
 
     //if (iInWord) goto endInWord2;
     adr x0, iInWord
-    ldr x0, [x0]
-    cmp x0, TRUE
+    ldr w0, [x0]
+    mov w1, TRUE
+    cmp w0, w1
     beq endInWord2
 
     //iInWord = TRUE;
-    mov x1, TRUE
-    str x1, [x0]
+    mov w1, TRUE
+    str w1, [w0]
 
 endInWord2: //                                              ENDinWord2
 
@@ -128,9 +131,9 @@ newLine:
 
     //if (iChar != '\n') goto endNewLine;
     adr x0, iChar
-    ldr x0, [x0]
-    mov x1, newLineStr
-    cmp x0, x1
+    ldr w0, [x0]
+    mov w1, newLineStr
+    cmp w0, w1
     bne endNewLine
 
     //lLineCount++;
