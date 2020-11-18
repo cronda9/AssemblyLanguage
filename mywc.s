@@ -101,7 +101,7 @@ inWord: //                                                   inWord
     //iInWord = FALSE;
     adr x0, iInWord
     mov w1, FALSE
-    str w1, [w0]
+    str w1, [x0]
 
 endInWord: //                                               ENDInWord
 
@@ -121,7 +121,7 @@ inWord2: //                                                 inWord2
 
     //iInWord = TRUE;
     mov w1, TRUE
-    str w1, [w0]
+    str w1, [x0]
 
 endInWord2: //                                              ENDinWord2
 
