@@ -40,7 +40,7 @@ iChar:
 
 //----------------------------------------------------------------------
 
-    .section .data
+    .section .text
 
     //----------------------------------------------------------------------
     // Write to stdout counts of how many lines, words, and characters
