@@ -133,7 +133,8 @@ newLine:
     //if (iChar != '\n') goto endNewLine;
     adr x0, iChar
     ldr w0, [x0]
-    adr w1, newLineStr
+    adr x1, newLineStr
+    ldr w1, [w1]
     cmp w0, w1
     bne endNewLine
 
