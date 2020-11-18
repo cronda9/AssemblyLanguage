@@ -12,9 +12,6 @@
 printfFormatString:
     .string "%7ld %7ld %7ld\n"
 
-newLineStr:
-    .string "\n"
-
 //----------------------------------------------------------------------
 
     .section .data
@@ -27,6 +24,9 @@ lWordCount:
 
 lCharCount:
     .quad 0
+
+newLineStr:
+    .word 10
 
 iInWord:
     .word FALSE
@@ -180,7 +180,7 @@ endInWord3:
     //epilogue and return 0
     mov w0, 0
     ldr x30, [sp]
-    add x30, x30, 16
+    add sp, sp, 16
     ret
 
     .size   main, (. - main)
