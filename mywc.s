@@ -152,7 +152,7 @@ inWord3:
     adr x0, iInWord
     ldr w0, [x0]
     mov w1, FALSE
-    cmp w0, x1
+    cmp w0, w1
     beq endInWord3
 
     //lWordCount++;
