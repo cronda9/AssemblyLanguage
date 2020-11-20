@@ -62,7 +62,6 @@ printfLongFormat:
 
 //----------------------------------------------------------------------
 
-    .BigInt_larger
 
 BigInt_larger:
 
@@ -101,7 +100,7 @@ endIf:
 
 //----------------------------------------------------------------------
 
-    .BigInt_add
+    .global .BigInt_add
 
 BigInt_add:
 
@@ -243,7 +242,7 @@ endOverflow2:
     str x2, [x0]
 
     // lIndex++;
-    ldr x0, [sp, lIndex]
+    ldr x0, [sp, LINDEX]
     add x0, x0, 1
     str x0, [x0]
     b addition
@@ -253,7 +252,7 @@ endAddition:
  carry:  /* Check for a carry out of the last "column" of the addition. */
 
     // if (ulCarry != 1) goto endCarry;
-    ldr x0, [sp, ulCarry]
+    ldr x0, [sp, ULCARRY]
     ldr x0, [x0]
     mov x1, 1
     cmp x0, x1
@@ -262,7 +261,7 @@ endAddition:
 maxDigits:
 
     // if (lSumLength != MAX_DIGITS) goto endMaxDigits;
-    ldr x0, [sp, lSumLength]
+    ldr x0, [sp, LSUMLENGTH]
     ldr x0, [x0]
     mov x1, MAX_DIGITS
     cmp x0, x1
