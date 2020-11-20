@@ -105,7 +105,7 @@ endIf:
     .equ LLENGTH, 0
     .equ LDIGITS, 8
 
-    .global .BigInt_add
+    .global BigInt_add
 
 BigInt_add:
 
