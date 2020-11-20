@@ -214,7 +214,7 @@ endOverflow1: // check for overflow
     ldr x1, [sp, LINDEX]
     ldr x1, [x1] // x1 --> lIndex
     ldr x0, [x0, x1, lsl 3] // x0 --> oAddend2->aulDigits[lIndex]
-    ldr x2, [sp, ulSum] // x1 --> ulSum mem address
+    ldr x2, [sp, ULSUM] // x1 --> ulSum mem address
     add x1, x0, x2
     str x1, [sp, ULSUM]
 
