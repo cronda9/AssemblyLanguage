@@ -20,23 +20,12 @@ printfLongFormat:
 
     .section .text
 
-    //-------------------------------------------
-    //Return the larger of lLength1 and lLength2. 
-    //-------------------------------------------
-
-    // In lieu of boolean data type
-    .equ TRUE, 1
-    .equ FALSE, 0
-
-    // The maximum number of digits a BigInt object can contain
-    .equ MAX_DIGITS, 32768
-
-    // Size of unsigned(long)
-    .equ SIZEOF_ULONG, 8
+    //------------------------------------------------------------------
+    // Return the larger of lLength1 and lLength2. 
+    //------------------------------------------------------------------
 
     // Must be a multiple of 16
     .equ BIGINT_LARGER_STACKCOUNT, 32
-    .equ BIGINT_ADD_STACKCOUNT, 64
 
     // BigInt_larger local variable stack offsets:
     .equ LLARGER, 8
@@ -44,24 +33,6 @@ printfLongFormat:
     // BigInt_larger parameter stack offsets:
     .equ LLENGTH1, 16
     .equ LLENGTH2, 24
-
-    // BigInt_add local variable stack offsets:
-    .equ ULCARRY, 40
-    .equ ULSUM, 48
-    .equ LINDEX, 56
-    .equ LSUMLENGTH, 64
-
-    // BigInt_add paramter stack offsets:
-    .equ OADDEND1, 72
-    .equ OADDEND2, 80
-    .equ OSUM, 88
-
-    // BigInt struct offsets
-    .equ LLENGTH, 0
-    .equ LDIGITS, 8
-
-//----------------------------------------------------------------------
-
 
 BigInt_larger:
 
@@ -98,7 +69,41 @@ endIf:
     ldr x0, [x0]
     ret
 
-//----------------------------------------------------------------------
+    .size   BigInt_larger, (. - BigInt_larger)
+
+    //------------------------------------------------------------------
+    // Assign the sum of oAddend1 and oAddend2 to oSum.  oSum should be
+    // distinct from oAddend1 and oAddend2.  Return 0 (FALSE) if an
+    // overflow occurred, and 1 (TRUE) otherwise.
+    //------------------------------------------------------------------
+    
+    // In lieu of boolean data type
+    .equ TRUE, 1
+    .equ FALSE, 0
+
+    // The maximum number of digits a BigInt object can contain
+    .equ MAX_DIGITS, 32768
+
+    // Size of unsigned(long)
+    .equ SIZEOF_ULONG, 8
+
+    // Must be a multiple of 16
+    .equ BIGINT_ADD_STACKCOUNT, 64
+
+    // BigInt_add local variable stack offsets:
+    .equ ULCARRY, 40
+    .equ ULSUM, 48
+    .equ LINDEX, 56
+    .equ LSUMLENGTH, 64
+
+    // BigInt_add paramter stack offsets:
+    .equ OADDEND1, 72
+    .equ OADDEND2, 80
+    .equ OSUM, 88
+
+    // BigInt struct offsets
+    .equ LLENGTH, 0
+    .equ LDIGITS, 8
 
     .global .BigInt_add
 
@@ -300,3 +305,5 @@ endCarry:
     add sp, sp, BIGINT_ADD_STACKCOUNT
     mov x0, TRUE
     ret
+
+    .size   BigInt_add, (. - BigInt_add)
