@@ -63,9 +63,9 @@ else1:
 endIf:
 
     // Epilogue and return lLarger
+    ldr x0, [sp, LLARGER]
     ldr x30, [sp]
     add sp, sp, BIGINT_LARGER_STACKCOUNT
-    ldr x0, [sp, LLARGER]
     ret
 
     .size   BigInt_larger, (. - BigInt_larger)
@@ -131,7 +131,7 @@ BigInt_add:
 
     // printf("%ld", lSumLength);
     ldr x1, [sp, LSUMLENGTH]
-    ldr x0, printfLongFormat
+    adr x0, printfLongFormat
     bl printf
 
     // Clear oSum's array if necessary. 
