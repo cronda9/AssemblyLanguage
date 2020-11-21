@@ -68,7 +68,7 @@ endIf:
     mov x0, LLARGER
     ldr x19, [sp, 8]
     ldr x20, [sp, 16]
-    ldr x21. [sp, 24]
+    ldr x21, [sp, 24]
     ldr x30, [sp]
     add sp, sp, BIGINT_LARGER_STACKCOUNT
     ret
