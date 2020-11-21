@@ -22,6 +22,7 @@ printfLongFormat:
 
     //------------------------------------------------------------------
     // Return the larger of lLength1 and lLength2. 
+    // static long BigInt_larger(long lLength1, long lLength2)
     //------------------------------------------------------------------
 
     // Must be a multiple of 16
@@ -75,6 +76,7 @@ endIf:
     // Assign the sum of oAddend1 and oAddend2 to oSum.  oSum should be
     // distinct from oAddend1 and oAddend2.  Return 0 (FALSE) if an
     // overflow occurred, and 1 (TRUE) otherwise.
+    // int BigInt_add(BigInt_T oAddend1, BigInt_T oAddend2, BigInt_T oSum)
     //------------------------------------------------------------------
     
     // In lieu of boolean data type
@@ -121,11 +123,9 @@ BigInt_add:
         // Puts oAddend1 -> lLength into x0
     ldr x0, [sp, OADDEND1]
     add x0, x0, LLENGTH
-    ldr x0, [x0]
         // Puts oAddend2 -> lLength into x1
     ldr x1, [sp, OADDEND2]
     add x1, x1, LLENGTH
-    ldr x1, [x1]
     bl BigInt_larger
     str x0, [sp, LSUMLENGTH]
 
