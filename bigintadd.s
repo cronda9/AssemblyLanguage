@@ -239,7 +239,7 @@ endOverflow2:
 
 endAddition:
 
- carry:  /* Check for a carry out of the last "column" of the addition. */
+carry:  /* Check for a carry out of the last "column" of the addition. */
 
     // if (ulCarry != 1) goto endCarry;
     ldr x0, [sp, ULCARRY]
