@@ -124,7 +124,7 @@ BigInt_add:
     ldr x0, [x0]
         // Puts oAddend2 -> lLength into x1
     ldr x1, [sp, OADDEND2]
-    add x1, x1, x2
+    add x1, x1, LLENGTH
     ldr x1, [x1]
     bl BigInt_larger
     str x0, [sp, LSUMLENGTH]
