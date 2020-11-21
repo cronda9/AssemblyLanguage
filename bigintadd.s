@@ -91,15 +91,15 @@ endIf:
     .equ BIGINT_ADD_STACKCOUNT, 64
 
     // BigInt_add local variable stack offsets:
-    .equ ULCARRY, 40
-    .equ ULSUM, 48
-    .equ LINDEX, 56
-    .equ LSUMLENGTH, 64
+    .equ ULCARRY, 8
+    .equ ULSUM, 16
+    .equ LINDEX, 24
+    .equ LSUMLENGTH, 32
 
     // BigInt_add paramter stack offsets:
-    .equ OADDEND1, 72
-    .equ OADDEND2, 80
-    .equ OSUM, 88
+    .equ OADDEND1, 40
+    .equ OADDEND2, 48
+    .equ OSUM, 56
 
     // BigInt struct offsets
     .equ LLENGTH, 0
@@ -130,8 +130,8 @@ BigInt_add:
     str x0, [sp, LSUMLENGTH]
 
     // printf("%ld", lSumLength);
-    ldr x1, [sp, LSUMLENGTH]
     adr x0, printfLongFormat
+    ldr x1, [sp, LSUMLENGTH]
     bl printf
 
     // Clear oSum's array if necessary. 
