@@ -211,8 +211,7 @@ endOverflow1: // check for overflow
     // ulSum += oAddend2->aulDigits[lIndex];
     ldr x0, [sp, OADDEND2]
     add x0, x0, LDIGITS // x0 --> oAddend2->aulDigits
-    ldr x1, [sp, LINDEX]
-    ldr x1, [x1] // x1 --> lIndex
+    ldr x1, [sp, LINDEX] // x1 --> lIndex 
     ldr x0, [x0, x1, lsl 3] // x0 --> oAddend2->aulDigits[lIndex]
     ldr x2, [sp, ULSUM] // x1 --> ulSum mem address
     add x1, x0, x2
@@ -225,21 +224,17 @@ overflow2: // check for overflow
     bhs endOverflow2
 
     // ulCarry = 1;
-    ldr x0, [sp, ULCARRY]
     mov x1, 1
-    str x1, [x0]
+    str x1, [sp, ULCARRY]
 
 endOverflow2:
 
     // oSum->aulDigits[lIndex] = ulSum;
     ldr x0, [sp, OSUM]
-    add x0, x0, LDIGITS
-    ldr x1, [sp, LINDEX]
-    ldr x1, [x1]
-    ldr x0, [sp, x1, lsl 3]
-    ldr x2, [sp, ULSUM]
-    ldr x2, [x2]
-    str x2, [x0]
+    add x0, x0, LDIGITS // x0 --> oSum->aulDigits
+    ldr x1, [sp, LINDEX] // x3 --> lIndex
+    ldr x2, [sp, ULSUM] // x2 --> ulSum
+    str x2, [x0, x1, lsl 3]
 
     // lIndex++;
     ldr x0, [sp, LINDEX]
@@ -253,7 +248,6 @@ endAddition:
 
     // if (ulCarry != 1) goto endCarry;
     ldr x0, [sp, ULCARRY]
-    ldr x0, [x0]
     mov x1, 1
     cmp x0, x1
     bne endCarry
@@ -262,7 +256,6 @@ maxDigits:
 
     // if (lSumLength != MAX_DIGITS) goto endMaxDigits;
     ldr x0, [sp, LSUMLENGTH]
-    ldr x0, [x0]
     mov x1, MAX_DIGITS
     cmp x0, x1
     bne endMaxDigits
@@ -277,14 +270,13 @@ endMaxDigits:
     ldr x0, [sp, OSUM]
     add x0, x0, LDIGITS
     ldr x1, [sp, LSUMLENGTH]
-    ldr x0, [x0, x1, lsl 3]
     mov x2, 1
-    str x2, [x0]
+    str x2, [x0, x1, lsl 3]
 
     // lSumLength++;
     ldr x0, [sp, LSUMLENGTH]
     add x0, x0, 1
-    str x0, [x0]
+    str x0, [sp, LSUMLENGTH]
 
 endCarry:
 
