@@ -51,18 +51,16 @@ lenIf:
     mov LLENGTH2, x1
 
     // if (lLength1 <= lLength2) goto else1;
-    ldr x0, [LLENGTH1]
-    ldr x1, [LLENGTH2]
     cmp x0, x1
     ble else1
 
     // lLarger = lLength1;
-    mov LLARGER, x0
+    mov LLARGER, LLENGTH1
 
 else1:
 
     // lLarger = lLength2;
-    mov LLARGER, x1
+    mov LLARGER, LLENGTH2
 
 endIf:
 
