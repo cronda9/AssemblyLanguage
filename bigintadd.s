@@ -129,11 +129,6 @@ BigInt_add:
     bl BigInt_larger
     str x0, [sp, LSUMLENGTH]
 
-    // printf("%ld", lSumLength);
-    adr x0, printfLongFormat
-    ldr x1, [sp, LSUMLENGTH]
-    bl printf
-
     // Clear oSum's array if necessary. 
 
 clear:
@@ -154,7 +149,6 @@ clear:
         // x0 --> oSum -> aulDigits into x0
     ldr x0, [sp, OSUM]
     add x0, x0, LDIGITS
-    ldr x0, [x0]
         // x1 --> 0 
     mov x1, 0
         // x2 --> MAX_DIGITS * sizeof(unsigned long) into x2
@@ -219,7 +213,7 @@ endOverflow1: // check for overflow
 
 overflow2: // check for overflow
     
-    // if (ulSum >= oAddend2->aulDigits[lIndex]) goto endOverflow1;
+    // if (ulSum >= oAddend2->aulDigits[lIndex]) goto endOverflow2;
     cmp x2, x0
     bhs endOverflow2
 
