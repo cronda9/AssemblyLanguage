@@ -77,7 +77,7 @@ endIf:
 
     .size   BigInt_larger, (. - BigInt_larger)
 
-    //------------------------------------------------------------------
+//------------------------------------------------------------------
     // Assign the sum of oAddend1 and oAddend2 to oSum.  oSum should be
     // distinct from oAddend1 and oAddend2.  Return 0 (FALSE) if an
     // overflow occurred, and 1 (TRUE) otherwise.
@@ -97,20 +97,20 @@ endIf:
     // Must be a multiple of 16
     .equ BIGINT_ADD_STACKCOUNT, 64
 
-    // BigInt_add local variable registers:
-    LSUMLENGTH  .req x28 // callee-saved register
-    LINDEX      .req x27 // callee-saved register
-    ULSUM       .req x26 // callee-saved register
-    ULCARRY     .req x25 // callee-saved register
+    // BigInt_add local variable stack offsets:
+    .equ ULCARRY, 8
+    .equ ULSUM, 16
+    .equ LINDEX, 24
+    .equ LSUMLENGTH, 32
 
-    // BigInt_add paramter registers:
-    OSUM        .req x24 // callee-saved register
-    OADDEND2    .req x23 // callee-saved register
-    OADDEND1    .req x22 // callee-saved register
+    // BigInt_add paramter stack offsets:
+    .equ OADDEND1, 40
+    .equ OADDEND2, 48
+    .equ OSUM, 56
 
     // BigInt struct offsets
-    .equ LLENGTH, 0 // Struct offset for length
-    .equ LDIGITS, 8 // Struct offset for long array
+    .equ LLENGTH, 0
+    .equ LDIGITS, 8
 
     .global BigInt_add
 
@@ -119,44 +119,49 @@ BigInt_add:
     //prolog
     sub sp, sp, BIGINT_ADD_STACKCOUNT
     str x30, [sp]
-    str x22, [sp, 72]
-    str x23, [sp, 80]
-    str x24, [sp, 88]
-    str x25, [sp, 40]
-    str x26, [sp, 48]
-    str x27, [sp, 56]
-    str x28, [sp, 64]
-
-    // Store parameters in registers
-    mov OADDEND1, x0
-    mov OADDEND2, x1
-    mov OSUM, x2
+    str x0, [sp, OADDEND1]
+    str x1, [sp, OADDEND2]
+    str x2, [sp, OSUM]
 
     // Determine the larger length.
     // lSumLength = BigInt_larger(oAddend1->lLength, oAddend2->lLength);
-    add x0, OADDEND1, LLENGTH
-    ldr x0, [x0]    // x0 --> oAddend1->lLength
-    add x1, OADDEND1, LLENGTH
-    ldr x1, [x1]    // x1 --> oAddend2->lLength
+        // Puts oAddend1 -> lLength into x0
+    ldr x0, [sp, OADDEND1]
+    add x0, x0, LLENGTH
+    ldr x0, [x0]
+        // Puts oAddend2 -> lLength into x1
+    ldr x1, [sp, OADDEND2]
+    add x1, x1, LLENGTH
+    ldr x1, [x1]
     bl BigInt_larger
-    str x0, [LSUMLENGTH]
-    
+    str x0, [sp, LSUMLENGTH]
+
     // Clear oSum's array if necessary. 
 
 clear:
 
     // if (oSum->lLength <= lSumLength) goto endClear;
-    add x1, OSUM, LLENGTH
-    ldr x1, [x1]     // x1 --> oSum->lLength
-    cmp x1, x0       // lSumLength already in x0
+        // x0 --> oSum -> lLength 
+    ldr x0, [sp, OSUM]
+    add x0, x0, LLENGTH
+    ldr x0, [x0]
+        // x1 --> lSumLength  
+    ldr x1, [sp, LSUMLENGTH]
+        // oSum->lLength <= lSumLength
+    cmp x0, x1
+        // goto endClear
     ble endClear
 
     // memset(oSum->aulDigits, 0, MAX_DIGITS * sizeof(unsigned long));
-    add x0, OSUM, LDIGITS // x0 --> oSum->aulDigits
-    mov x1, 0             // x1 --> 0
+        // x0 --> oSum -> aulDigits into x0
+    ldr x0, [sp, OSUM]
+    add x0, x0, LDIGITS
+        // x1 --> 0 
+    mov x1, 0
+        // x2 --> MAX_DIGITS * sizeof(unsigned long) into x2
     mov x2, MAX_DIGITS
     mov x3, SIZEOF_ULONG
-    mul x2, x2, x3        // x2 --> MAX_DIGITS * sizeof(unsigned long)
+    mul x2, x2, x3
     bl memset
     
 endClear:
@@ -164,7 +169,9 @@ endClear:
     // Perform the addition. */
     //ulCarry = 0;
     mov x0, 0
-    str x0, ULCARRY
+    str x0, [sp, ULCARRY]
+    //lIndex = 0;
+    str x0, [sp, LINDEX]
 
 
 addition:
@@ -291,3 +298,4 @@ endCarry:
     ret
 
     .size   BigInt_add, (. - BigInt_add)
+    
