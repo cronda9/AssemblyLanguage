@@ -143,9 +143,8 @@ clear:
     ldr x0, [sp, OSUM]
     add x0, x0, LLENGTH
     ldr x0, [x0]
-        // x1 --> lSumLength -> lLength 
-    ldr x1, [sp, OSUM]
-    add x1, x1, LLENGTH
+        // x1 --> lSumLength  
+    ldr x1, [sp, LSUMLENGTH]
     ldr x1, [x1]
         // oSum->lLength <= lSumLength
     cmp x0, x1
