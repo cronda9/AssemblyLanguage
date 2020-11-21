@@ -121,7 +121,7 @@ BigInt_add:
         // Puts oAddend1 -> lLength into x0
     ldr x0, [x0]
     mov x2, LLENGTH
-    add x0, x0, x1
+    add x0, x0, x2
     ldr x0, [x0]
         // Puts oAddend2 -> lLength into x1
     ldr x1, [x1]
