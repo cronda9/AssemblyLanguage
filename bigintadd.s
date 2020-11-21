@@ -195,7 +195,7 @@ overflow1:
 
     // if (ulSum >= oAddend1->aulDigits[lIndex]) goto endOverflow1;
     cmp x1, x0
-    bhi endOverflow1
+    bhs endOverflow1
 
     // ulCarry = 1;
     mov x1, 1
@@ -216,7 +216,7 @@ overflow2: // check for overflow
     
     // if (ulSum >= oAddend2->aulDigits[lIndex]) goto endOverflow2;
     cmp x1, x0
-    bhi endOverflow2
+    bhs endOverflow2
 
     // ulCarry = 1;
     mov x1, 1
