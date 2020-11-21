@@ -170,6 +170,7 @@ endClear:
 addition:
 
     // if( lIndex >= lSumLength) goto endAddition;
+    ldr x1, [sp, LSUMLENGTH]
     cmp x0, x1
     bge endAddition
 
@@ -187,7 +188,7 @@ addition:
     ldr x1, [sp, LINDEX] // x1 --> lIndex
     ldr x0, [x0, x1, lsl 3] // x0 --> oAddend1->aulDigits[lIndex]
     ldr x2, [sp, ULSUM] // x2 --> ulSum
-    add x1, x0, x2 // x2 --> ulSum + oAddend1->aulDigits[lIndex]
+    add x1, x0, x2 // x1 --> ulSum + oAddend1->aulDigits[lIndex]
     str x1, [sp, ULSUM]
 
 overflow1:
@@ -226,7 +227,7 @@ endOverflow2:
     // oSum->aulDigits[lIndex] = ulSum;
     ldr x0, [sp, OSUM]
     add x0, x0, LDIGITS // x0 --> oSum->aulDigits
-    ldr x1, [sp, LINDEX] // x3 --> lIndex
+    ldr x1, [sp, LINDEX] // x1 --> lIndex
     ldr x2, [sp, ULSUM] // x2 --> ulSum
     str x2, [x0, x1, lsl 3]
 
