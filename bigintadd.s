@@ -66,7 +66,6 @@ endIf:
     ldr x30, [sp]
     add x30, x30, BIGINT_LARGER_STACKCOUNT
     ldr x0, [sp, LLARGER]
-    ldr x0, [x0]
     ret
 
     .size   BigInt_larger, (. - BigInt_larger)
