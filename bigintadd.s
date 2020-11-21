@@ -120,8 +120,7 @@ BigInt_add:
     // lSumLength = BigInt_larger(oAddend1->lLength, oAddend2->lLength);
         // Puts oAddend1 -> lLength into x0
     ldr x0, [sp, OADDEND1]
-    mov x2, LLENGTH
-    add x0, x0, x2
+    add x0, x0, LLENGTH
     ldr x0, [x0]
         // Puts oAddend2 -> lLength into x1
     ldr x1, [sp, OADDEND2]
@@ -145,7 +144,8 @@ clear:
     add x0, x0, LLENGTH
     ldr x0, [x0]
         // x1 --> lSumLength -> lLength 
-    ldr x1, [sp, LSUMLENGTH]
+    ldr x1, [sp, OSUM]
+    add x1, x1, LLENGTH
     ldr x1, [x1]
         // oSum->lLength <= lSumLength
     cmp x0, x1

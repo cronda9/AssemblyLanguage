@@ -3,7 +3,7 @@ Assignment 5 readme File
 ------------------------------------------------------------------------
 Student 1: What is your name?
 
-
+Chrisitan Ronda
 
 ------------------------------------------------------------------------
 Student 2: What is your name?
@@ -87,9 +87,9 @@ What is your mywc program test plan?
 What are the CPU times consumed by the programs from Parts 2a, 2b, 2d,
 2e, and 2f to compute fib(250000) on armlab? Fill in the blanks.
 
-Part 2a:  _____ seconds
+Part 2a:  12.01 seconds
 
-Part 2b:  _____ seconds
+Part 2b:  2.980 seconds
 
 Part 2d:  _____ seconds
 
