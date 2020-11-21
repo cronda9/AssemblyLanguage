@@ -239,7 +239,7 @@ endOverflow2:
     // lIndex++;
     ldr x0, [sp, LINDEX]
     add x0, x0, 1
-    str x0, [x0]
+    str x0, [sp, LINDEX]
     b addition
 
 endAddition:
