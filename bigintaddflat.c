@@ -51,7 +51,6 @@ int BigInt_add(BigInt_T oAddend1, BigInt_T oAddend2, BigInt_T oSum)
      /* Determine the larger length. */
      
      lSumLength = BigInt_larger(oAddend1->lLength, oAddend2->lLength);
-     printf("%ld", lSumLength);
 
      /* Clear oSum's array if necessary. */
     clear:
@@ -75,7 +74,7 @@ int BigInt_add(BigInt_T oAddend1, BigInt_T oAddend2, BigInt_T oSum)
 
         ulSum += oAddend2->aulDigits[lIndex];
         overflow2:
-            if (ulSum >= oAddend2->aulDigits[lIndex]) goto endOverflow1;/* Check for overflow. */
+            if (ulSum >= oAddend2->aulDigits[lIndex]) goto endOverflow2;/* Check for overflow. */
             ulCarry = 1;
         endOverflow2:
 
