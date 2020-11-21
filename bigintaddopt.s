@@ -137,7 +137,7 @@ BigInt_add:
     add x1, OADDEND1, LLENGTH
     ldr x1, [x1]    // x1 --> oAddend2->lLength
     bl BigInt_larger
-    str x0, [LSUMLENGTH]
+    mov LSUMLENGTH, x0 
     
     // Clear oSum's array if necessary. 
 
@@ -161,96 +161,76 @@ endClear:
 
     // Perform the addition. */
     //ulCarry = 0;
-    mov x0, 0
-    str x0, ULCARRY
-
+    mov ULCARRY, 0 ////////////////////////////////////////////////////////////////////
 
 addition:
 
     // if( lIndex >= lSumLength) goto endAddition;
-    ldr x1, [sp, LSUMLENGTH]
-    cmp x0, x1
+    cmp LINDEX, LSUMLENGTH ////////////////////////////////////////////////////////////////////
     bge endAddition
 
     // ulSum = ulCarry;
-    ldr x0, [sp, ULCARRY] // x0 --> mem addres of ulCarry
-    str x0, [sp, ULSUM] 
+    mov ULSUM, ULCARRY ////////////////////////////////////////////////////////////////////
     
     //ulCarry = 0;
-    mov x1, 0
-    str x1, [sp, ULCARRY]
+    mov ULCARRY, 0
 
     // ulSum += oAddend1->aulDigits[lIndex];
-    ldr x0, [sp, OADDEND1]
-    add x0, x0, LDIGITS // x0 --> oAddend1->aulDigits
-    ldr x1, [sp, LINDEX] // x1 --> lIndex
-    ldr x0, [x0, x1, lsl 3] // x0 --> oAddend1->aulDigits[lIndex]
-    ldr x2, [sp, ULSUM] // x2 --> ulSum
-    add x1, x0, x2 // x1 --> ulSum + oAddend1->aulDigits[lIndex]
-    str x1, [sp, ULSUM]
+    add x0, OADDEND1, LDIGITS
+    ldr x2, [x0, LINDEX, lsl 3] ///////////////////////////////////////////////////////////////
+    add ULSUM, ULSUM, x2
 
 overflow1:
 
     // if (ulSum >= oAddend1->aulDigits[lIndex]) goto endOverflow1;
-    cmp x1, x0
+    cmp ULSUM, x2
     bhs endOverflow1
 
     // ulCarry = 1;
-    mov x1, 1
-    str x1, [sp, ULCARRY]
+    mov ULCARRY, 1
 
 endOverflow1: // check for overflow
 
     // ulSum += oAddend2->aulDigits[lIndex];
-    ldr x0, [sp, OADDEND2]
-    add x0, x0, LDIGITS // x0 --> oAddend2->aulDigits
-    ldr x1, [sp, LINDEX] // x1 --> lIndex 
-    ldr x0, [x0, x1, lsl 3] // x0 --> oAddend2->aulDigits[lIndex]
-    ldr x2, [sp, ULSUM] // x1 --> ulSum mem address
-    add x1, x0, x2
-    str x1, [sp, ULSUM]
+    add x0, OADDEND2, LDIGITS
+    ldr x2, [x0, LINDEX, lsl 3] 
+    add ULSUM, ULSUM, x2
 
 overflow2: // check for overflow
     
     // if (ulSum >= oAddend2->aulDigits[lIndex]) goto endOverflow2;
-    cmp x1, x0
+    cmp ULSUM, x2
     bhs endOverflow2
 
     // ulCarry = 1;
-    mov x1, 1
-    str x1, [sp, ULCARRY]
+    mov ULCARRY, 1
 
 endOverflow2:
 
     // oSum->aulDigits[lIndex] = ulSum;
-    ldr x0, [sp, OSUM]
-    add x0, x0, LDIGITS // x0 --> oSum->aulDigits
-    ldr x1, [sp, LINDEX] // x1 --> lIndex
-    ldr x2, [sp, ULSUM] // x2 --> ulSum
-    str x2, [x0, x1, lsl 3]
+    add x0, OSUM, LDIGITS
+    ldr x0, [x0, LINDEX, lsl 3]
+    mov ULSUM, x0
+
+
 
     // lIndex++;
-    ldr x0, [sp, LINDEX]
-    add x0, x0, 1
-    str x0, [sp, LINDEX]
+    add LINDEX, LINDEX, 1
     b addition
 
 endAddition:
 
 carry:  /* Check for a carry out of the last "column" of the addition. */
 
+
     // if (ulCarry != 1) goto endCarry;
-    ldr x0, [sp, ULCARRY]
-    mov x1, 1
-    cmp x0, x1
+    cmp ULCARRY, 1
     bne endCarry
 
 maxDigits:
 
     // if (lSumLength != MAX_DIGITS) goto endMaxDigits;
-    ldr x0, [sp, LSUMLENGTH]
-    mov x1, MAX_DIGITS
-    cmp x0, x1
+    cmp LSUMLENGTH, MAX_DIGITS
     bne endMaxDigits
 
     // Epilogue and return FALSE
@@ -262,25 +242,19 @@ maxDigits:
 endMaxDigits:
 
     // oSum->aulDigits[lSumLength] = 1;
-    ldr x0, [sp, OSUM]
-    add x0, x0, LDIGITS
-    ldr x1, [sp, LSUMLENGTH]
-    mov x2, 1
-    str x2, [x0, x1, lsl 3]
+    add x0, OSUM, LDIGITS
+    ldr x0, [x0, LINDEX, lsl 3]
+    mov x1, 1
 
     // lSumLength++;
-    ldr x0, [sp, LSUMLENGTH]
-    add x0, x0, 1
-    str x0, [sp, LSUMLENGTH]
+    add LSUMLENGTH, LSUMLENGTH, 1
 
 endCarry:
 
     // Set the length of the sum.
     // oSum->lLength = lSumLength;
-    ldr x0, [sp, OSUM]
-    add x0, x0, LLENGTH
-    ldr x1, [sp, LSUMLENGTH]
-    str x1, [x0]
+    ldr x0, [OSUM, LLENGTH, lsl 3]
+    mov x0, LSUMLENGTH
 
     // Epilogue and return TRUE;
     ldr x30, [sp]
