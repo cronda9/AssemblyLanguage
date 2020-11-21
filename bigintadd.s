@@ -50,8 +50,7 @@ lenIf:
     ble else1
 
     // lLarger = lLength1;
-    ldr x2, [sp, LLARGER]
-    str x0, [x2]
+    str x0, [sp, LLARGER]
 
     // goto endElse
     b endIf
@@ -59,7 +58,7 @@ lenIf:
 else1:
 
     // lLarger = lLength2;
-    str x1, [x2]
+    str x1, [sp, LLARGER]
 
 endIf:
 
@@ -123,14 +122,16 @@ BigInt_add:
         // Puts oAddend1 -> lLength into x0
     ldr x0, [sp, OADDEND1]
     add x0, x0, LLENGTH
+    ldr x0, [x0]
         // Puts oAddend2 -> lLength into x1
     ldr x1, [sp, OADDEND2]
     add x1, x1, LLENGTH
+    ldr x1, [x1]
     bl BigInt_larger
     str x0, [sp, LSUMLENGTH]
 
     // printf("%ld", lSumLength);
-    ldr x1, [x0]
+    ldr x1, [sp, LSUMLENGTH]
     ldr x0, printfLongFormat
     bl printf
 
@@ -145,7 +146,6 @@ clear:
     ldr x0, [x0]
         // x1 --> lSumLength  
     ldr x1, [sp, LSUMLENGTH]
-    ldr x1, [x1]
         // oSum->lLength <= lSumLength
     cmp x0, x1
         // goto endClear
@@ -168,11 +168,10 @@ endClear:
     // Perform the addition. */
     //ulCarry = 0;
     mov x0, 0
-    ldr x1, [sp, ULCARRY]
-    str x0, [x1]
+    str x0, [sp, ULCARRY]
     //lIndex = 0;
-    ldr x1, [sp, LINDEX]
-    str x0, [x1]
+    str x0, [sp, LINDEX]
+
 
 addition:
 
@@ -182,21 +181,18 @@ addition:
 
     // ulSum = ulCarry;
     ldr x0, [sp, ULCARRY] // x0 --> mem addres of ulCarry
-    str x1, [x0]
-    str x1, [sp, ULSUM] 
+    str x0, [sp, ULSUM] 
     
     //ulCarry = 0;
     mov x1, 0
-    str x1, [x0]
+    str x1, [sp, ULCARRY]
 
     // ulSum += oAddend1->aulDigits[lIndex];
     ldr x0, [sp, OADDEND1]
     add x0, x0, LDIGITS // x0 --> oAddend1->aulDigits
-    ldr x1, [sp, LINDEX]
-    ldr x1, [x1] // x1 --> lIndex
+    ldr x1, [sp, LINDEX] // x1 --> lIndex
     ldr x0, [x0, x1, lsl 3] // x0 --> oAddend1->aulDigits[lIndex]
-    ldr x2, [sp, ULSUM]
-    ldr x2, [x2] // x2 --> ulSum
+    ldr x2, [sp, ULSUM] // x2 --> ulSum
     add x1, x0, x2 // x2 --> ulSum + oAddend1->aulDigits[lIndex]
     str x1, [sp, ULSUM]
 
@@ -207,9 +203,8 @@ overflow1:
     bhs endOverflow1
 
     // ulCarry = 1;
-    ldr x0, [sp, ULCARRY]
     mov x1, 1
-    str x1, [x0]
+    str x1, [sp, ULCARRY]
 
 endOverflow1: // check for overflow
 
