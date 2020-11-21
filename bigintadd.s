@@ -64,7 +64,7 @@ endIf:
 
     // Epilogue and return lLarger
     ldr x30, [sp]
-    add x30, x30, BIGINT_LARGER_STACKCOUNT
+    add sp, sp, BIGINT_LARGER_STACKCOUNT
     ldr x0, [sp, LLARGER]
     ret
 
