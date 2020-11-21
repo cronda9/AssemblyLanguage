@@ -154,6 +154,7 @@ clear:
         // x0 --> oSum -> aulDigits into x0
     ldr x0, [sp, OSUM]
     add x0, x0, LDIGITS
+    ldr x0, [x0]
         // x1 --> 0 
     mov x1, 0
         // x2 --> MAX_DIGITS * sizeof(unsigned long) into x2
