@@ -253,7 +253,8 @@ endCarry:
 
     // Set the length of the sum.
     // oSum->lLength = lSumLength;
-    ldr x0, [OSUM, LLENGTH, lsl 3]
+    add x0, OSUM, LLENGTH
+    ldr x0, [x0]
     mov x0, LSUMLENGTH
 
     // Epilogue and return TRUE;
