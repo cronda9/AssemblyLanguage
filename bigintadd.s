@@ -255,7 +255,9 @@ maxDigits:
     cmp x0, x1
     bne endMaxDigits
 
-    // return FALSE
+    // Epilogue and return FALSE
+    ldr x30, [sp]
+    add sp, sp, BIGINT_ADD_STACKCOUNT
     mov x0, FALSE
     ret
 
