@@ -66,10 +66,10 @@ endIf:
 
     // Epilogue and return lLarger
     mov x0, LLARGER
+    ldr x30, [sp]
     ldr x19, [sp, 8]
     ldr x20, [sp, 16]
     ldr x21, [sp, 24]
-    ldr x30, [sp]
     add sp, sp, BIGINT_LARGER_STACKCOUNT
     ret
 
@@ -180,7 +180,8 @@ addition:
     // ulSum += oAddend1->aulDigits[lIndex];
     add x0, OADDEND1, LDIGITS
     ldr x2, [x0, LINDEX, lsl 3] 
-    add ULSUM, ULSUM, x2
+    add x0, ULSUM, x2
+    mov ULSUM, x0   // potential fix?
 
 overflow1:
 
@@ -191,12 +192,13 @@ overflow1:
     // ulCarry = 1;
     mov ULCARRY, 1
 
-endOverflow1: // check for overflow
+endOverflow1: 
 
     // ulSum += oAddend2->aulDigits[lIndex];
     add x0, OADDEND2, LDIGITS
     ldr x2, [x0, LINDEX, lsl 3] 
-    add ULSUM, ULSUM, x2
+    add x0, ULSUM, x2
+    mov ULSUM, x0 // potential fix?
 
 overflow2: // check for overflow
     
