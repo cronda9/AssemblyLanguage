@@ -213,7 +213,7 @@ endOverflow2:
 
     // oSum->aulDigits[lIndex] = ulSum;
     add x0, OSUM, LDIGITS
-    mul x1, LINDEX, lsl 3
+    lsl x1, LINDEX, 3
     add x0, x0, x1
     mov x0, ULSUM  // CHANGED
 
@@ -253,7 +253,7 @@ endMaxDigits:
 
     // oSum->aulDigits[lSumLength] = 1;
     add x0, OSUM, LDIGITS
-    mul x1, LINDEX, lsl 3
+    lsl x1, LINDEX, 3
     add x0, x0, x1
     mov x0, 1  // CHANGED
 
