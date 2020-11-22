@@ -117,13 +117,13 @@ BigInt_add:
     //prolog
     sub sp, sp, BIGINT_ADD_STACKCOUNT
     str x30, [sp]
-    str x22, [sp, 72]
-    str x23, [sp, 80]
-    str x24, [sp, 88]
-    str x25, [sp, 40]
-    str x26, [sp, 48]
-    str x27, [sp, 56]
-    str x28, [sp, 64]
+    str x22, [sp, 40]
+    str x23, [sp, 48]
+    str x24, [sp, 56]
+    str x25, [sp, 8]
+    str x26, [sp, 16]
+    str x27, [sp, 24]
+    str x28, [sp, 32]
 
     // Store parameters in registers
     mov OADDEND1, x0
@@ -146,7 +146,7 @@ clear:
     // if (oSum->lLength <= lSumLength) goto endClear;
     add x1, OSUM, LLENGTH
     ldr x1, [x1]     // x1 --> oSum->lLength
-    cmp x1, x0       // lSumLength already in x0
+    cmp x1, LSUMLENGTH       // lSumLength already in x0
     ble endClear
 
     // memset(oSum->aulDigits, 0, MAX_DIGITS * sizeof(unsigned long));
@@ -232,9 +232,16 @@ maxDigits:
     bne endMaxDigits
 
     // Epilogue and return FALSE
-    ldr x30, [sp]
-    add sp, sp, BIGINT_ADD_STACKCOUNT
     mov x0, FALSE
+    ldr x30, [sp]
+    ldr x22, [sp, 40]
+    ldr x23, [sp, 48]
+    ldr x24, [sp, 56]
+    ldr x25, [sp, 8]
+    ldr x26, [sp, 16]
+    ldr x27, [sp, 24]
+    ldr x28, [sp, 32]
+    add sp, sp, BIGINT_ADD_STACKCOUNT
     ret
 
 endMaxDigits:
@@ -256,9 +263,16 @@ endCarry:
     mov x0, LSUMLENGTH
 
     // Epilogue and return TRUE;
-    ldr x30, [sp]
-    add sp, sp, BIGINT_ADD_STACKCOUNT
     mov x0, TRUE
+    ldr x30, [sp]
+    ldr x22, [sp, 40]
+    ldr x23, [sp, 48]
+    ldr x24, [sp, 56]
+    ldr x25, [sp, 8]
+    ldr x26, [sp, 16]
+    ldr x27, [sp, 24]
+    ldr x28, [sp, 32]
+    add sp, sp, BIGINT_ADD_STACKCOUNT
     ret
 
     .size   BigInt_add, (. - BigInt_add)
