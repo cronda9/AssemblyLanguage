@@ -51,7 +51,7 @@ lenIf:
     mov LLENGTH2, x1
 
     // if (lLength1 <= lLength2) goto else1;
-    cmp x0, x1
+    cmp LLENGTH1, LLENGTH2
     ble else1
 
     // lLarger = lLength1;
@@ -144,9 +144,9 @@ BigInt_add:
 clear:
 
     // if (oSum->lLength <= lSumLength) goto endClear;
-    add x1, OSUM, LLENGTH
-    ldr x1, [x1]     // x1 --> oSum->lLength
-    cmp x1, LSUMLENGTH       // lSumLength already in x0
+    add x0, OSUM, LLENGTH
+    ldr x0, [x0]     // x0 --> oSum->lLength
+    cmp x0, LSUMLENGTH   
     ble endClear
 
     // memset(oSum->aulDigits, 0, MAX_DIGITS * sizeof(unsigned long));
@@ -160,24 +160,26 @@ clear:
 endClear:
 
     // Perform the addition. */
-    //ulCarry = 0;
-    mov ULCARRY, 0 ////////////////////////////////////////////////////////////////////
+    // ulCarry = 0;
+    mov ULCARRY, 0 
+    // lIndex = 0;
+    mov lIndex, 0
 
 addition:
 
     // if( lIndex >= lSumLength) goto endAddition;
-    cmp LINDEX, LSUMLENGTH ////////////////////////////////////////////////////////////////////
+    cmp LINDEX, LSUMLENGTH 
     bge endAddition
 
     // ulSum = ulCarry;
-    mov ULSUM, ULCARRY ////////////////////////////////////////////////////////////////////
+    mov ULSUM, ULCARRY 
     
     //ulCarry = 0;
     mov ULCARRY, 0
 
     // ulSum += oAddend1->aulDigits[lIndex];
     add x0, OADDEND1, LDIGITS
-    ldr x2, [x0, LINDEX, lsl 3] ///////////////////////////////////////////////////////////////
+    ldr x2, [x0, LINDEX, lsl 3] 
     add ULSUM, ULSUM, x2
 
 overflow1:
