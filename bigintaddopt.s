@@ -213,8 +213,9 @@ endOverflow2:
 
     // oSum->aulDigits[lIndex] = ulSum;
     add x0, OSUM, LDIGITS
-    ldr x0, [x0, LINDEX, lsl 3]
-    mov x0, ULSUM
+    mul x1, LINDEX, lsl 3
+    add x0, x0, x1
+    mov x0, ULSUM  // CHANGED
 
     // lIndex++;
     add LINDEX, LINDEX, 1
@@ -252,8 +253,9 @@ endMaxDigits:
 
     // oSum->aulDigits[lSumLength] = 1;
     add x0, OSUM, LDIGITS
-    ldr x0, [x0, LINDEX, lsl 3]
-    mov x0, 1
+    mul x1, LINDEX, lsl 3
+    add x0, x0, x1
+    mov x0, 1  // CHANGED
 
     // lSumLength++;
     add LSUMLENGTH, LSUMLENGTH, 1
@@ -263,8 +265,7 @@ endCarry:
     // Set the length of the sum.
     // oSum->lLength = lSumLength;
     add x0, OSUM, LLENGTH
-    ldr x0, [x0]
-    mov x0, LSUMLENGTH
+    mov x0, LSUMLENGTH  // CHANGED
 
     // Epilogue and return TRUE;
     mov x0, TRUE
