@@ -218,7 +218,8 @@ endOverflow2:
     mov x0, ULSUM  // CHANGED
 
     // lIndex++;
-    add LINDEX, LINDEX, 1
+    add x0, LINDEX, 1
+    mov LINDEX, x0
     b addition
 
 endAddition:
@@ -253,12 +254,13 @@ endMaxDigits:
 
     // oSum->aulDigits[lSumLength] = 1;
     add x0, OSUM, LDIGITS
-    lsl x1, LINDEX, 3
+    lsl x1, LSUMLENGTH, 3
     add x0, x0, x1
     mov x0, 1  // CHANGED
 
     // lSumLength++;
-    add LSUMLENGTH, LSUMLENGTH, 1
+    add x0, LSUMLENGTH, 1
+    mov LSUMLENGTH, x0
 
 endCarry:
 
