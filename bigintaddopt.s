@@ -163,7 +163,7 @@ endClear:
     // ulCarry = 0;
     mov ULCARRY, 0 
     // lIndex = 0;
-    mov lIndex, 0
+    mov LINDEX, 0
 
 addition:
 
