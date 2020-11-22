@@ -43,6 +43,13 @@ BigInt_larger:
     str x19, [sp, 8]
     str x20, [sp, 16]
     str x21, [sp, 24]
+    str x22, [sp, 40]
+    str x23, [sp, 48]
+    str x24, [sp, 56]
+    str x25, [sp, 8]
+    str x26, [sp, 16]
+    str x27, [sp, 24]
+    str x28, [sp, 32]
 
 lenIf:
 
@@ -70,6 +77,13 @@ endIf:
     ldr x19, [sp, 8]
     ldr x20, [sp, 16]
     ldr x21, [sp, 24]
+    ldr x22, [sp, 40]
+    ldr x23, [sp, 48]
+    ldr x24, [sp, 56]
+    ldr x25, [sp, 8]
+    ldr x26, [sp, 16]
+    ldr x27, [sp, 24]
+    ldr x28, [sp, 32]
     add sp, sp, BIGINT_LARGER_STACKCOUNT
     ret
 
