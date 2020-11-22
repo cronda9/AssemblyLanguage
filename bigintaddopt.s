@@ -29,20 +29,20 @@ printfLongFormat:
     .equ BIGINT_LARGER_STACKCOUNT, 32
 
     // BigInt_larger local variable registers
-    LLARGER     .req x21 // callee-saved register
+    LLARGER     .req x28 // callee-saved register
 
     // BigInt_larger parameter registers
-    LLENGTH1    .req x20 // callee-saved register
-    LLENGTH2    .req x19 // callee-saved register
+    LLENGTH1    .req x27 // callee-saved register
+    LLENGTH2    .req x26 // callee-saved register
 
 BigInt_larger:
 
 //prolog 
     sub sp, sp, BIGINT_LARGER_STACKCOUNT
     str x30, [sp]
-    str x19, [sp, 8]
-    str x20, [sp, 16]
-    str x21, [sp, 24]
+    str x26, [sp, 8]
+    str x27, [sp, 16]
+    str x28, [sp, 24]
 
 lenIf:
 
@@ -67,9 +67,9 @@ endIf:
     // Epilogue and return lLarger
     mov x0, LLARGER
     ldr x30, [sp]
-    ldr x19, [sp, 8]
-    ldr x20, [sp, 16]
-    ldr x21, [sp, 24]
+    ldr x26, [sp, 8]
+    ldr x27, [sp, 16]
+    ldr x28, [sp, 24]
     add sp, sp, BIGINT_LARGER_STACKCOUNT
     ret
 
@@ -96,15 +96,15 @@ endIf:
     .equ BIGINT_ADD_STACKCOUNT, 64
 
     // BigInt_add local variable registers:
-    LSUMLENGTH  .req x28 // callee-saved register
-    LINDEX      .req x27 // callee-saved register
-    ULSUM       .req x26 // callee-saved register
-    ULCARRY     .req x25 // callee-saved register
+    LSUMLENGTH  .req x25 // callee-saved register
+    LINDEX      .req x24 // callee-saved register
+    ULSUM       .req x23 // callee-saved register
+    ULCARRY     .req x22 // callee-saved register
 
     // BigInt_add paramter registers:
-    OSUM        .req x24 // callee-saved register
-    OADDEND2    .req x23 // callee-saved register
-    OADDEND1    .req x22 // callee-saved register
+    OSUM        .req x21 // callee-saved register
+    OADDEND2    .req x20 // callee-saved register
+    OADDEND1    .req x19 // callee-saved register
 
     // BigInt struct offsets
     .equ LLENGTH, 0 // Struct offset for length
@@ -117,13 +117,13 @@ BigInt_add:
     //prolog
     sub sp, sp, BIGINT_ADD_STACKCOUNT
     str x30, [sp]
-    str x22, [sp, 40]
-    str x23, [sp, 48]
-    str x24, [sp, 56]
-    str x25, [sp, 8]
-    str x26, [sp, 16]
-    str x27, [sp, 24]
-    str x28, [sp, 32]
+    str x19, [sp, 8]
+    str x20, [sp, 16]
+    str x21, [sp, 24]
+    str x22, [sp, 32]
+    str x23, [sp, 40]
+    str x24, [sp, 48]
+    str x25, [sp, 56]
 
     // Store parameters in registers
     mov OADDEND1, x0
@@ -238,13 +238,13 @@ maxDigits:
     // Epilogue and return FALSE
     mov x0, FALSE
     ldr x30, [sp]
-    ldr x22, [sp, 40]
-    ldr x23, [sp, 48]
-    ldr x24, [sp, 56]
-    ldr x25, [sp, 8]
-    ldr x26, [sp, 16]
-    ldr x27, [sp, 24]
-    ldr x28, [sp, 32]
+    ldr x19, [sp, 8]
+    ldr x20, [sp, 16]
+    ldr x21, [sp, 24]
+    ldr x22, [sp, 32]
+    ldr x23, [sp, 40]
+    ldr x24, [sp, 48]
+    ldr x25, [sp, 56]
     add sp, sp, BIGINT_ADD_STACKCOUNT
     ret
 
@@ -263,19 +263,18 @@ endCarry:
     // Set the length of the sum.
     // oSum->lLength = lSumLength;
     add x0, OSUM, LLENGTH
-    ldr x0, [x0]
-    mov x0, LSUMLENGTH
+    mov [x0], LSUMLENGTH
 
     // Epilogue and return TRUE;
     mov x0, TRUE
     ldr x30, [sp]
-    ldr x22, [sp, 40]
-    ldr x23, [sp, 48]
-    ldr x24, [sp, 56]
-    ldr x25, [sp, 8]
-    ldr x26, [sp, 16]
-    ldr x27, [sp, 24]
-    ldr x28, [sp, 32]
+    ldr x19, [sp, 8]
+    ldr x20, [sp, 16]
+    ldr x21, [sp, 24]
+    ldr x22, [sp, 32]
+    ldr x23, [sp, 40]
+    ldr x24, [sp, 48]
+    ldr x25, [sp, 56]
     add sp, sp, BIGINT_ADD_STACKCOUNT
     ret
 
