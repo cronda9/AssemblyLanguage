@@ -196,7 +196,8 @@ endMaxDigits:
 
     // oSum->aulDigits[lSumLength] = 1;
     add x0, OSUM, LDIGITS
-    str 1, [x0, LSUMLENGTH, lsl 3]
+    mov x1, 1
+    str x1, [x0, LSUMLENGTH, lsl 3]
 
     // lSumLength++;
     add LSUMLENGTH, LSUMLENGTH, 1
