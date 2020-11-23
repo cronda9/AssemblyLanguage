@@ -61,7 +61,6 @@ BigInt_add:
 
     //prolog
     sub sp, sp, BIGINT_ADD_STACKCOUNT
-    str x30, [sp]
     str x19, [sp, 8]
     str x20, [sp, 16]
     str x21, [sp, 24]
@@ -187,7 +186,6 @@ maxDigits:
 
     // Epilogue and return FALSE
     mov x0, FALSE
-    ldr x30, [sp]
     ldr x19, [sp, 8]
     ldr x20, [sp, 16]
     ldr x21, [sp, 24]
@@ -220,7 +218,6 @@ endCarry:
 
     // Epilogue and return TRUE;
     mov x0, TRUE
-    ldr x30, [sp]
     ldr x19, [sp, 8]
     ldr x20, [sp, 16]
     ldr x21, [sp, 24]
