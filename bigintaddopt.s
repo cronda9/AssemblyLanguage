@@ -57,12 +57,15 @@ lenIf:
     // lLarger = lLength1;
     mov LLARGER, LLENGTH1
 
+    // goto endElse;
+    b endElse
+
 else1:
 
     // lLarger = lLength2;
     mov LLARGER, LLENGTH2
 
-endIf:
+endElse:
 
     // Epilogue and return lLarger
     mov x0, LLARGER
