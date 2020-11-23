@@ -134,7 +134,7 @@ BigInt_add:
     // lSumLength = BigInt_larger(oAddend1->lLength, oAddend2->lLength);
     add x0, OADDEND1, LLENGTH
     ldr x0, [x0]    // x0 --> oAddend1->lLength
-    add x1, OADDEND1, LLENGTH
+    add x1, OADDEND2, LLENGTH
     ldr x1, [x1]    // x1 --> oAddend2->lLength
     bl BigInt_larger
     mov LSUMLENGTH, x0 
