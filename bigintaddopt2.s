@@ -156,9 +156,7 @@ overflow2: // check for overflow
 endOverflow2:
 
     // oSum->aulDigits[lIndex] = ulSum;
-    add x0, OSUM, LDIGITS
-    add x0, x0, x1
-    str ULSUM, [x0]  // CHANGED
+    str ULSUM, [OSUM, x1]  // CHANGED
 
     // lIndex++;
     add LINDEX, LINDEX, 1
