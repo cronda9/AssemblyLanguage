@@ -92,7 +92,6 @@ clear:
 
     // if (oSum->lLength <= lSumLength) goto endClear;
     ldr x0, [OSUM, LLENGTH]
-    // ldr x0, [x0]     // x0 --> oSum->lLength
     cmp x0, LSUMLENGTH   
     ble endClear
 
@@ -115,45 +114,17 @@ endClear:
 
 addition:
 
-    // ulSum = ulCarry;
-    mov ULSUM, ULCARRY 
-
-    //ulCarry = 0;
-    mov ULCARRY, 0
-
     // x1 = aulDigits + [lIndex]
     lsl x1, LINDEX, 3
     add x1, x1, LDIGITS
 
     // ulSum += oAddend1->aulDigits[lIndex];
     ldr x2, [OADDEND1, x1]
-    add ULSUM, ULSUM, x2
-
-overflow1:
-
-    // if (ulSum >= oAddend1->aulDigits[lIndex]) goto endOverflow1;
-    cmp ULSUM, x2
-    bhs endOverflow1
-
-    // ulCarry = 1;
-    mov ULCARRY, 1
-
-endOverflow1: 
+    adcs ULSUM, ULSUM, x2, C
 
     // ulSum += oAddend2->aulDigits[lIndex];
     ldr x2, [OADDEND2, x1]
-    add ULSUM, ULSUM, x2
-
-overflow2: // check for overflow
-    
-    // if (ulSum >= oAddend2->aulDigits[lIndex]) goto endOverflow2;
-    cmp ULSUM, x2
-    bhs endOverflow2
-
-    // ulCarry = 1;
-    mov ULCARRY, 1
-
-endOverflow2:
+    adcd ULSUM, ULSUM, x2, C
 
     // oSum->aulDigits[lIndex] = ulSum;
     str ULSUM, [OSUM, x1]  // CHANGED
