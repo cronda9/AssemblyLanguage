@@ -109,7 +109,7 @@ endClear:
 
     // Perform the addition. */
     // ulCarry = 0;
-    // mov ULCARRY, 0 
+    mov ULCARRY, 0 
     // lIndex = 0;
     mov LINDEX, 0
 
