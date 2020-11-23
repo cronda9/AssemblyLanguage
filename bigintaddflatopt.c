@@ -61,8 +61,7 @@ int BigInt_add(BigInt_T oAddend1, BigInt_T oAddend2, BigInt_T oSum)
     /* Perform the addition. */
    ulCarry = 0;
    lIndex = 0;
-   if(lSumLength == 0) goto endLoop; //Might be able to take out
-   do{
+   loop:
         ulSum = ulCarry;
         ulCarry = 0;
 
@@ -77,7 +76,7 @@ int BigInt_add(BigInt_T oAddend1, BigInt_T oAddend2, BigInt_T oSum)
         oSum->aulDigits[lIndex] = ulSum;
         lIndex++;
 
-    } while(lIndex < lSumLength);
+        if(lIndex < lSumLength) goto loop;
    endLoop:
 
    /* Check for a carry out of the last "column" of the addition. */
