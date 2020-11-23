@@ -40,6 +40,10 @@ printfLongFormat:
     // Must be a multiple of 16
     .equ BIGINT_ADD_STACKCOUNT, 64
 
+    // BigInt struct offsets
+    .equ LLENGTH, 0 // Struct offset for length
+    .equ LDIGITS, 8 // Struct offset for long array
+
     // BigInt_add local variable registers:
     LSUMLENGTH  .req x25 // callee-saved register
     LINDEX      .req x24 // callee-saved register
@@ -50,10 +54,6 @@ printfLongFormat:
     OSUM        .req x21 // callee-saved register
     OADDEND2    .req x20 // callee-saved register
     OADDEND1    .req x19 // callee-saved register
-
-    // BigInt struct offsets
-    .equ LLENGTH, 0 // Struct offset for length
-    .equ LDIGITS, 8 // Struct offset for long array
 
     .global BigInt_add
 
@@ -77,7 +77,7 @@ BigInt_add:
 
     // Determine the larger length.
     // if(oAddend1->lLength <= oAddend2->lLength) goto else1;
-    ldr LSUMLENGTH, [OADDEND1, LLENGTH] // x0 --> oAddend1->lLength
+    ldr LSUMLENGTH, [OADDEND1, LLENGTH] // LSUMLENGTH --> oAddend1->lLength
     ldr x1, [OADDEND2, LLENGTH] // x1 --> oAddend2->lLength
     cmp LSUMLENGTH, x1 
     ble else1
@@ -91,8 +91,8 @@ else1:
 clear:
 
     // if (oSum->lLength <= lSumLength) goto endClear;
-    add x0, OSUM, LLENGTH
-    ldr x0, [x0]     // x0 --> oSum->lLength
+    ldr x0, [OSUM, LLENGTH]
+    // ldr x0, [x0]     // x0 --> oSum->lLength
     cmp x0, LSUMLENGTH   
     ble endClear
 
@@ -117,18 +117,17 @@ addition:
 
     // ulSum = ulCarry;
     mov ULSUM, ULCARRY 
-    
+
     //ulCarry = 0;
     mov ULCARRY, 0
 
-    // x1 = 
+    // x1 = index offset for aulDigits
     lsl x1, LINDEX, 3
 
     // ulSum += oAddend1->aulDigits[lIndex];
     add x0, OADDEND1, LDIGITS
     ldr x2, [x0, x1] 
     add ULSUM, ULSUM, x2
-    // mov ULSUM, x0   // potential fix?
 
 overflow1:
 
@@ -145,7 +144,6 @@ endOverflow1:
     add x0, OADDEND2, LDIGITS
     ldr x2, [x0, x1] 
     add ULSUM, ULSUM, x2
-    // mov ULSUM, x0 // potential fix?
 
 overflow2: // check for overflow
     
@@ -173,7 +171,6 @@ endOverflow2:
 endAddition:
 
 carry:  /* Check for a carry out of the last "column" of the addition. */
-
 
     // if (ulCarry != 1) goto endCarry;
     cmp ULCARRY, 1
@@ -208,8 +205,7 @@ endMaxDigits:
     str x1, [x0]
 
     // lSumLength++;
-    add x0, LSUMLENGTH, 1
-    mov LSUMLENGTH, x0
+    add LSUMLENGTH, LSUMLENGTH, 1
 
 endCarry:
 
