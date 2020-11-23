@@ -41,6 +41,7 @@ int BigInt_add(BigInt_T oAddend1, BigInt_T oAddend2, BigInt_T oSum)
    unsigned long ulSum;
    long lIndex;
    long lSumLength;
+   long l;
 
    assert(oAddend1 != NULL);
    assert(oAddend2 != NULL);

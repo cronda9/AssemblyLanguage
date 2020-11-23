@@ -123,10 +123,10 @@ addition:
 
     // x1 = index offset for aulDigits
     lsl x1, LINDEX, 3
+    add x1, x1, LDIGITS
 
     // ulSum += oAddend1->aulDigits[lIndex];
-    add x0, OADDEND1, LDIGITS
-    ldr x2, [x0, x1] 
+    ldr x0, [OADDEND1, x1]
     add ULSUM, ULSUM, x2
 
 overflow1:
@@ -141,8 +141,7 @@ overflow1:
 endOverflow1: 
 
     // ulSum += oAddend2->aulDigits[lIndex];
-    add x0, OADDEND2, LDIGITS
-    ldr x2, [x0, x1] 
+    ldr x0, [OADDEND2, x1]
     add ULSUM, ULSUM, x2
 
 overflow2: // check for overflow
