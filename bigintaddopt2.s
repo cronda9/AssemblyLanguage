@@ -119,7 +119,7 @@ addition:
 
     // ulSum += oAddend2->aulDigits[lIndex];
     ldr x2, [OADDEND2, x1]
-    adcd ULSUM, ULSUM, x2, C
+    adcs ULSUM, ULSUM, x2, C
 
     // oSum->aulDigits[lIndex] = ulSum;
     str ULSUM, [OSUM, x1]
