@@ -77,16 +77,16 @@ BigInt_add:
 
     // Determine the larger length.
     // if(oAddend1->lLength <= oAddend2->lLength) goto else1;
-    ldr x0, [OADDEND1, LLENGTH] // x0 --> oAddend1->lLength
-    add x1, [OADDEND2, LLENGTH] // x1 --> oAddend2->lLength
-    cmp x0, x1 
+    ldr LSUMLENGTH, [OADDEND1, LLENGTH] // x0 --> oAddend1->lLength
+    ldr x1, [OADDEND2, LLENGTH] // x1 --> oAddend2->lLength
+    cmp LSUMLENGTH, x1 
     ble else1
     b clear
 
 else1:
 
-    // x0 --> LLENGTH2
-    mov x0, LLENGTH2
+    // move larger length into LSUMLENGTH
+    mov LSUMLENGTH, x1
 
 clear:
 
