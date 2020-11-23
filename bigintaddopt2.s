@@ -109,39 +109,65 @@ endClear:
 
     // Perform the addition. */
     // ulCarry = 0;
-    // mov ULCARRY, 0 
+    mov ULCARRY, 0 
     // lIndex = 0;
     mov LINDEX, 0
 
 addition:
 
-    // if( lIndex >= lSumLength) goto endAddition;
-    cmp LINDEX, LSUMLENGTH 
-    bge endAddition
-
-    // ulSum = C;
-    mov ULSUM, C
+    // ulSum = ulCarry;
+    mov ULSUM, ULCARRY 
+    
+    //ulCarry = 0;
+    mov ULCARRY, 0
 
     // ulSum += oAddend1->aulDigits[lIndex];
     add x0, OADDEND1, LDIGITS
     ldr x2, [x0, LINDEX, lsl 3] 
-    adcs ULSUM, ULSUM, x2, C
+    add x0, ULSUM, x2
+    mov ULSUM, x0   // potential fix?
+
+overflow1:
+
+    // if (ulSum >= oAddend1->aulDigits[lIndex]) goto endOverflow1;
+    cmp ULSUM, x2
+    bhs endOverflow1
+
+    // ulCarry = 1;
+    mov ULCARRY, 1
+
+endOverflow1: 
 
     // ulSum += oAddend2->aulDigits[lIndex];
     add x0, OADDEND2, LDIGITS
     ldr x2, [x0, LINDEX, lsl 3] 
-    adcs ULSUM, ULSUM, x2, C
+    add x0, ULSUM, x2
+    mov ULSUM, x0 // potential fix?
+
+overflow2: // check for overflow
+    
+    // if (ulSum >= oAddend2->aulDigits[lIndex]) goto endOverflow2;
+    cmp ULSUM, x2
+    bhs endOverflow2
+
+    // ulCarry = 1;
+    mov ULCARRY, 1
+
+endOverflow2:
 
     // oSum->aulDigits[lIndex] = ulSum;
     add x0, OSUM, LDIGITS
     lsl x1, LINDEX, 3
     add x0, x0, x1
-    str ULSUM, [x0]  
+    str ULSUM, [x0]  // CHANGED
 
     // lIndex++;
     add x0, LINDEX, 1
     mov LINDEX, x0
-    b addition
+     
+    // if(lIndex < lSumLength) goto loop;
+    cmp LINDEX, LSUMLENGTH
+    blt addition
 
 endAddition:
 
@@ -149,7 +175,7 @@ carry:  /* Check for a carry out of the last "column" of the addition. */
 
 
     // if (ulCarry != 1) goto endCarry;
-    cmp C, 1
+    cmp ULCARRY, 1
     bne endCarry
 
 maxDigits:
@@ -193,7 +219,7 @@ endCarry:
 
     // Epilogue and return TRUE;
     mov x0, TRUE
-    ldr x30 [sp]
+    ldr x30, [sp]
     ldr x19, [sp, 8]
     ldr x20, [sp, 16]
     ldr x21, [sp, 24]
