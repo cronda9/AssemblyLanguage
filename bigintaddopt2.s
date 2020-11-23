@@ -109,7 +109,7 @@ endClear:
 
     // Perform the addition. */
     // ulCarry = 0;
-    mov ULCARRY, 0 
+    // mov ULCARRY, 0 
     // lIndex = 0;
     mov LINDEX, 0
 
@@ -121,11 +121,14 @@ addition:
     //ulCarry = 0;
     mov ULCARRY, 0
 
+    // x1 = 
+    lsl x1, LINDEX, 3
+
     // ulSum += oAddend1->aulDigits[lIndex];
     add x0, OADDEND1, LDIGITS
-    ldr x2, [x0, LINDEX, lsl 3] 
-    add x0, ULSUM, x2
-    mov ULSUM, x0   // potential fix?
+    ldr x2, [x0, x1] 
+    add ULSUM, ULSUM, x2
+    // mov ULSUM, x0   // potential fix?
 
 overflow1:
 
@@ -140,9 +143,9 @@ endOverflow1:
 
     // ulSum += oAddend2->aulDigits[lIndex];
     add x0, OADDEND2, LDIGITS
-    ldr x2, [x0, LINDEX, lsl 3] 
-    add x0, ULSUM, x2
-    mov ULSUM, x0 // potential fix?
+    ldr x2, [x0, x1] 
+    add ULSUM, ULSUM, x2
+    // mov ULSUM, x0 // potential fix?
 
 overflow2: // check for overflow
     
@@ -157,13 +160,11 @@ endOverflow2:
 
     // oSum->aulDigits[lIndex] = ulSum;
     add x0, OSUM, LDIGITS
-    lsl x1, LINDEX, 3
     add x0, x0, x1
     str ULSUM, [x0]  // CHANGED
 
     // lIndex++;
-    add x0, LINDEX, 1
-    mov LINDEX, x0
+    add LINDEX, LINDEX, 1
      
     // if(lIndex < lSumLength) goto loop;
     cmp LINDEX, LSUMLENGTH
