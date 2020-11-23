@@ -104,8 +104,6 @@ clear:
 endClear:
 
     // Perform the addition. */
-    // ulCarry = 0;
-    mov ULCARRY, 0 
     // lIndex = 0;
     mov LINDEX, 0
 
@@ -124,7 +122,7 @@ addition:
     adcd ULSUM, ULSUM, x2, C
 
     // oSum->aulDigits[lIndex] = ulSum;
-    str ULSUM, [OSUM, x1]  // CHANGED
+    str ULSUM, [OSUM, x1]
 
     // lIndex++;
     add LINDEX, LINDEX, 1
