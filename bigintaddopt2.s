@@ -44,7 +44,7 @@ printfLongFormat:
     LSUMLENGTH  .req x25 // callee-saved register
     LINDEX      .req x24 // callee-saved register
     ULSUM       .req x23 // callee-saved register
-    // ULCARRY     .req x22 // callee-saved register
+    ULCARRY     .req x22 // callee-saved register
 
     // BigInt_add paramter registers:
     OSUM        .req x21 // callee-saved register
