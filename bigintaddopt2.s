@@ -38,17 +38,16 @@ printfLongFormat:
     .equ SIZEOF_ULONG, 8
 
     // Must be a multiple of 16
-    .equ BIGINT_ADD_STACKCOUNT, 64
+    .equ BIGINT_ADD_STACKCOUNT, 48
 
     // BigInt struct offsets
     .equ LLENGTH, 0 // Struct offset for length
     .equ LDIGITS, 8 // Struct offset for long array
 
     // BigInt_add local variable registers:
-    LSUMLENGTH  .req x25 // callee-saved register
-    LINDEX      .req x24 // callee-saved register
-    ULSUM       .req x23 // callee-saved register
-    ULCARRY     .req x22 // callee-saved register
+    LSUMLENGTH  .req x24 // callee-saved register
+    LINDEX      .req x23 // callee-saved register
+    ULSUM       .req x22 // callee-saved register
 
     // BigInt_add paramter registers:
     OSUM        .req x21 // callee-saved register
@@ -68,7 +67,6 @@ BigInt_add:
     str x22, [sp, 32]
     str x23, [sp, 40]
     str x24, [sp, 48]
-    str x25, [sp, 56]
 
     // Store parameters in registers
     mov OADDEND1, x0
@@ -103,7 +101,6 @@ clear:
     mul x2, x2, x3        // x2 --> MAX_DIGITS * sizeof(unsigned long)
     bl memset
 
-    
 endClear:
 
     // Perform the addition. */
@@ -159,7 +156,6 @@ maxDigits:
     ldr x22, [sp, 32]
     ldr x23, [sp, 40]
     ldr x24, [sp, 48]
-    ldr x25, [sp, 56]
     add sp, sp, BIGINT_ADD_STACKCOUNT
     ret
 
@@ -189,7 +185,6 @@ endCarry:
     ldr x22, [sp, 32]
     ldr x23, [sp, 40]
     ldr x24, [sp, 48]
-    ldr x25, [sp, 56]
     add sp, sp, BIGINT_ADD_STACKCOUNT
     ret
 
