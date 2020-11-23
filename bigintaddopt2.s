@@ -121,7 +121,7 @@ addition:
     //ulCarry = 0;
     mov ULCARRY, 0
 
-    // x1 = index offset for aulDigits
+    // x1 = aulDigits + [lIndex]
     lsl x1, LINDEX, 3
     add x1, x1, LDIGITS
 
@@ -196,10 +196,7 @@ endMaxDigits:
 
     // oSum->aulDigits[lSumLength] = 1;
     add x0, OSUM, LDIGITS
-    lsl x1, LSUMLENGTH, 3
-    add x0, x0, x1
-    mov x1, 1  
-    str x1, [x0]
+    str 1, [x0, LSUMLENGTH, lsl 3]
 
     // lSumLength++;
     add LSUMLENGTH, LSUMLENGTH, 1
