@@ -136,7 +136,7 @@ endAddition:
 carry:  /* Check for a carry out of the last "column" of the addition. */
 
     // if (ulCarry != 1) goto endCarry;
-    mrs w0, PSTATE.carry
+    mrs w0, [PSTATE.C]
     cmp w0, 1
     bne endCarry
 
