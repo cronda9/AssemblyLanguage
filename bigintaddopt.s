@@ -215,7 +215,7 @@ endOverflow2:
     add x0, OSUM, LDIGITS
     lsl x1, LINDEX, 3
     add x0, x0, x1
-    mov x0, ULSUM  // CHANGED
+    str ULSUM, [x0]  // CHANGED
 
     // lIndex++;
     add x0, LINDEX, 1
@@ -256,7 +256,8 @@ endMaxDigits:
     add x0, OSUM, LDIGITS
     lsl x1, LSUMLENGTH, 3
     add x0, x0, x1
-    mov x0, 1  // CHANGED
+    mov x1, 1  
+    str x1, [x0]
 
     // lSumLength++;
     add x0, LSUMLENGTH, 1
@@ -267,7 +268,7 @@ endCarry:
     // Set the length of the sum.
     // oSum->lLength = lSumLength;
     add x0, OSUM, LLENGTH
-    mov x0, LSUMLENGTH  // CHANGED
+    str LSUMLENGTH, [x0]  // CHANGED
 
     // Epilogue and return TRUE;
     mov x0, TRUE
