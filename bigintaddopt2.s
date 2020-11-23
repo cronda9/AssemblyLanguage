@@ -136,7 +136,8 @@ endAddition:
 carry:  /* Check for a carry out of the last "column" of the addition. */
 
     // if (ulCarry != 1) goto endCarry;
-    cmp ULCARRY, 1
+    mrs w0, [pstate, 29]
+    cmp w0, 1
     bne endCarry
 
 maxDigits:
