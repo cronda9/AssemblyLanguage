@@ -126,7 +126,7 @@ addition:
     add x1, x1, LDIGITS
 
     // ulSum += oAddend1->aulDigits[lIndex];
-    ldr x0, [OADDEND1, x1]
+    ldr x2, [OADDEND1, x1]
     add ULSUM, ULSUM, x2
 
 overflow1:
@@ -141,7 +141,7 @@ overflow1:
 endOverflow1: 
 
     // ulSum += oAddend2->aulDigits[lIndex];
-    ldr x0, [OADDEND2, x1]
+    ldr x2, [OADDEND2, x1]
     add ULSUM, ULSUM, x2
 
 overflow2: // check for overflow
