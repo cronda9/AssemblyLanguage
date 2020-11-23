@@ -115,11 +115,11 @@ addition:
 
     // ulSum += oAddend1->aulDigits[lIndex];
     ldr x2, [OADDEND1, x1]
-    adcs ULSUM, ULSUM, x2, C
+    adcs ULSUM, ULSUM, x2
 
     // ulSum += oAddend2->aulDigits[lIndex];
     ldr x2, [OADDEND2, x1]
-    adcs ULSUM, ULSUM, x2, C
+    adcs ULSUM, ULSUM, x2
 
     // oSum->aulDigits[lIndex] = ulSum;
     str ULSUM, [OSUM, x1]
