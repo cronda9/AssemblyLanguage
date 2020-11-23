@@ -97,7 +97,8 @@ clear:
     ble endClear
 
     // memset(oSum->aulDigits, 0, MAX_DIGITS * sizeof(unsigned long));
-    mul x0, MAX_DIGITS, SIZEOF_ULONG      // x2 --> MAX_DIGITS * sizeof(unsigned long)
+    mov x1, MAX_DIGITS
+    mul x0, x1, SIZEOF_ULONG      // x2 --> MAX_DIGITS * sizeof(unsigned long)
     sub x0, x0, x0
     add x1, OSUM, LDIGITS
     str x0, [x1]
