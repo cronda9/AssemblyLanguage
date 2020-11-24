@@ -38,7 +38,7 @@ printfLongFormat:
     .equ SIZEOF_ULONG, 8
 
     // Must be a multiple of 16
-    .equ BIGINT_ADD_STACKCOUNT, 48
+    .equ BIGINT_ADD_STACKCOUNT, 64
 
     // BigInt struct offsets
     .equ LLENGTH, 0 // Struct offset for length
@@ -67,6 +67,7 @@ BigInt_add:
     str x22, [sp, 32]
     str x23, [sp, 40]
     str x24, [sp, 48]
+    str x24, [sp, 56]
 
     // Store parameters in registers
     mov OADDEND1, x0
@@ -112,38 +113,61 @@ endClear:
     cmp LINDEX, LSUMLENGTH
     beq endAddition 
 
+endClear:
+
+    // Perform the addition. */
+    // ulCarry = 0;
+    mov ULCARRY, 0 
+    // lIndex = 0;
+    mov LINDEX, 0
+
 addition:
+
+    // ulSum = ulCarry;
+    mov ULSUM, ULCARRY 
+
+    //ulCarry = 0;
+    mov ULCARRY, 0
 
     // x1 = aulDigits + [lIndex]
     lsl x1, LINDEX, 3
     add x1, x1, LDIGITS
 
-    mov ULSUM, 0
-
+    // ulSum += oAddend1->aulDigits[lIndex];
     ldr x2, [OADDEND1, x1]
-    adcs ULSUM, ULSUM, x2
-    bcs after
+    add ULSUM, ULSUM, x2
 
+overflow1:
+
+    // if (ulSum >= oAddend1->aulDigits[lIndex]) goto endOverflow1;
+    cmp ULSUM, x2
+    bhs endOverflow1
+
+    // ulCarry = 1;
+    mov ULCARRY, 1
+
+endOverflow1: 
+
+    // ulSum += oAddend2->aulDigits[lIndex];
     ldr x2, [OADDEND2, x1]
-    adcs ULSUM, ULSUM, x2
-    bcs after2
+    add ULSUM, ULSUM, x2
 
-after:
-    ldr x2, [OADDEND2, x1]
-    adc ULSUM, ULSUM, x2
-    b end
-
-after2:
-    add ULSUM, ULSUM, 1
+overflow2: // check for overflow
     
-end:
+    // if (ulSum >= oAddend2->aulDigits[lIndex]) goto endOverflow2;
+    cmp ULSUM, x2
+    bhs endOverflow2
+
+    // ulCarry = 1;
+    mov ULCARRY, 1
+
+endOverflow2:
+
     // oSum->aulDigits[lIndex] = ulSum;
-    str ULSUM, [OSUM, x1]
+    str ULSUM, [OSUM, x1]  // CHANGED
 
     // lIndex++;
     add LINDEX, LINDEX, 1
-
-    mrs x0, nzcv
      
     // if(lIndex < lSumLength) goto loop;
     cmp LINDEX, LSUMLENGTH
@@ -154,7 +178,7 @@ endAddition:
 carry:  /* Check for a carry out of the last "column" of the addition. */
 
     // if (ulCarry != 1) goto endMaxDigits;
-    cmp x0, 1
+    cmp ULCARRY, 1
     bne endCarry
 
 maxDigits:
@@ -172,6 +196,7 @@ maxDigits:
     ldr x22, [sp, 32]
     ldr x23, [sp, 40]
     ldr x24, [sp, 48]
+    ldr x25, [sp, 56]
     add sp, sp, BIGINT_ADD_STACKCOUNT
     ret
 
@@ -201,6 +226,7 @@ endCarry:
     ldr x22, [sp, 32]
     ldr x23, [sp, 40]
     ldr x24, [sp, 48]
+    ldr x25, [sp, 56]
     add sp, sp, BIGINT_ADD_STACKCOUNT
     ret
 
