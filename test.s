@@ -126,10 +126,6 @@ addition:
     ldr x2, [OADDEND2, x1]
     adds ULSUM, ULSUM, x2
 
-
-    ldr x2, [OADDEND2, x1]
-    adds ULSUM, ULSUM, x2
-
     // oSum->aulDigits[lIndex] = ulSum;
     str ULSUM, [OSUM, x1]
 
