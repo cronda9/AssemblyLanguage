@@ -61,7 +61,7 @@ BigInt_add:
 
     //prolog
     sub sp, sp, BIGINT_ADD_STACKCOUNT
-    //str x30, [sp]
+    str x30, [sp]
     str x19, [sp, 8]
     str x20, [sp, 16]
     str x21, [sp, 24]
@@ -101,7 +101,7 @@ clear:
     mov x2, MAX_DIGITS
     mov x3, SIZEOF_ULONG
     mul x2, x2, x3        // x2 --> MAX_DIGITS * sizeof(unsigned long)
-    blr memset
+    bl memset
 
 endClear:
 
@@ -116,8 +116,6 @@ endClear:
     // Perform the addition. */
     // ulCarry = 0;
     mov ULCARRY, 0 
-    // lIndex = 0;
-    mov LINDEX, 0
 
 addition:
 
@@ -133,14 +131,10 @@ addition:
 
     // ulSum += oAddend1->aulDigits[lIndex];
     ldr x2, [OADDEND1, x1]
-    add ULSUM, ULSUM, x2
+    adds ULSUM, ULSUM, x2
+    bcc endOverflow1
 
-overflow1:
-
-    // if (ulSum >= oAddend1->aulDigits[lIndex]) goto endOverflow1;
-    cmp ULSUM, x2
-    bhs endOverflow1
-
+carry1:
     // ulCarry = 1;
     mov ULCARRY, 1
 
@@ -148,14 +142,10 @@ endOverflow1:
 
     // ulSum += oAddend2->aulDigits[lIndex];
     ldr x2, [OADDEND2, x1]
-    add ULSUM, ULSUM, x2
+    adds ULSUM, ULSUM, x2
+    bcc endOverflow2
 
-overflow2: // check for overflow
-    
-    // if (ulSum >= oAddend2->aulDigits[lIndex]) goto endOverflow2;
-    cmp ULSUM, x2
-    bhs endOverflow2
-
+carry2:
     // ulCarry = 1;
     mov ULCARRY, 1
 
@@ -187,7 +177,7 @@ maxDigits:
 
     // Epilogue and return FALSE
     mov x0, FALSE
-    //ldr x30, [sp]
+    ldr x30, [sp]
     ldr x19, [sp, 8]
     ldr x20, [sp, 16]
     ldr x21, [sp, 24]
@@ -217,7 +207,7 @@ endCarry:
 
     // Epilogue and return TRUE;
     mov x0, TRUE
-    //ldr x30, [sp]
+    ldr x30, [sp]
     ldr x19, [sp, 8]
     ldr x20, [sp, 16]
     ldr x21, [sp, 24]
