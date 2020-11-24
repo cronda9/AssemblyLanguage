@@ -168,7 +168,7 @@ maxDigits:
     add sp, sp, BIGINT_ADD_STACKCOUNT
     ret
 
-endCarry:
+endMaxDigits:
 
     // Set the length of the sum.
     // oSum->lLength = lSumLength;
