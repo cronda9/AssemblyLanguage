@@ -5,9 +5,6 @@
 
     .section .rodata
 
-printfLongFormat:
-    .string "%ld"
-
 //----------------------------------------------------------------------
 
     .section .data
