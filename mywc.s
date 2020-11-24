@@ -58,7 +58,7 @@ main:
     sub sp, sp, 16
     str x30, [sp]
 
-mainLoop: //                                                   mainLoop
+mainLoop:
     
     //if((iChar = getchar()) == EOF) goto mainLoopEnd;
     bl getchar
@@ -73,7 +73,7 @@ mainLoop: //                                                   mainLoop
     add x1, x1, 1
     str x1, [x0]
 
-isSpace: //                                                   isSpace
+isSpace:
 
     //if (!isspace(iChar)) goto else1;
     adr x0, iChar
@@ -83,7 +83,7 @@ isSpace: //                                                   isSpace
     cmp w0, w1
     beq else1
 
-inWord: //                                                   inWord
+inWord:
 
     //if (!iInWord) goto endInWord;
     adr x0, iInWord
@@ -103,14 +103,14 @@ inWord: //                                                   inWord
     mov w1, FALSE
     str w1, [x0]
 
-endInWord: //                                               ENDInWord
+endInWord:
 
     // goto endIsSpace
     b endIsSpace
 
-else1: //                                                   else1
+else1:
 
-inWord2: //                                                 inWord2
+inWord2:
 
     //if (iInWord) goto endInWord2;
     adr x0, iInWord
@@ -124,9 +124,9 @@ inWord2: //                                                 inWord2
     mov w1, TRUE
     str w1, [x0]
 
-endInWord2: //                                              ENDinWord2
+endInWord2:
 
-endIsSpace: //                                              ENDIsSpace
+endIsSpace: 
 
 newLine: 
 
@@ -149,7 +149,7 @@ endNewLine:
     // goto mainLoop
     b mainLoop
 
-mainLoopEnd: //                                             ENDmainLoop
+mainLoopEnd:
 
 inWord3:
 
