@@ -158,7 +158,7 @@ endOverflow2:
      
     // if(lIndex < lSumLength) goto loop;
     sub x1, LSUMLENGTH, LINDEX
-    cmp 0, x1
+    cmp zr, x1
     blt addition
 
 endAddition:
