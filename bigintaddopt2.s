@@ -107,6 +107,9 @@ endClear:
     // lIndex = 0;
     mov LINDEX, 0
 
+    cmp LINDEX, LSUMLENGTH
+    beq endAddition 
+
 addition:
 
     // x1 = aulDigits + [lIndex]
