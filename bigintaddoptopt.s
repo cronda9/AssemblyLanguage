@@ -105,7 +105,7 @@ endClear:
 
     // if (lIndex == lSumLength)
     cmp LINDEX, LSUMLENGTH
-    beq endAddition 
+    beq endCarry 
 
     // Perform the addition. */
 addition:
