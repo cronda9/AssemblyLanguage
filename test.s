@@ -108,6 +108,7 @@ endClear:
     mov LINDEX, 0
 
     // if (lIndex == lSumLength)
+    mov x0, 0
     cmp LINDEX, LSUMLENGTH
     beq endAddition 
 
