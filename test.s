@@ -118,25 +118,12 @@ addition:
     add x1, x1, LDIGITS
 
     mov ULSUM, 0
-    bcc overflow1
-    mov ULSUM, 1
 
-overflow1:
-    // ulSum += oAddend1->aulDigits[lIndex];
     ldr x2, [OADDEND1, x1]
-    adds ULSUM, ULSUM, x2
-    bcs other
+    adcs ULSUM, ULSUM, x2
 
-    // ulSum += oAddend2->aulDigits[lIndex];
     ldr x2, [OADDEND2, x1]
-    adds ULSUM, ULSUM, x2
-    b endOverflow
-
- other:
-    ldr x2, [OADDEND2, x1]
-    add ULSUM, ULSUM, x2
-
-endOverflow:
+    adcs ULSUM, ULSUM, x2
 
     // oSum->aulDigits[lIndex] = ulSum;
     str ULSUM, [OSUM, x1]
