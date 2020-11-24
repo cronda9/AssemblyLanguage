@@ -45,6 +45,7 @@ printfLongFormat:
     .equ LDIGITS, 8 // Struct offset for long array
 
     // BigInt_add local variable registers:
+    ULCARRY     .req x25
     LSUMLENGTH  .req x24 // callee-saved register
     LINDEX      .req x23 // callee-saved register
     ULSUM       .req x22 // callee-saved register
