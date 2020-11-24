@@ -151,13 +151,14 @@ carry2:
 endOverflow2:
 
     // oSum->aulDigits[lIndex] = ulSum;
-    str ULSUM, [OSUM, x1]  // CHANGED
+    str ULSUM, [OSUM, x1] 
 
     // lIndex++;
     add LINDEX, LINDEX, 1
      
     // if(lIndex < lSumLength) goto loop;
-    cmp LINDEX, LSUMLENGTH
+    sub x1, LSUMLENGTH, LINDEX
+    cmp 0, x1
     blt addition
 
 endAddition:
