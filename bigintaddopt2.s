@@ -117,17 +117,18 @@ addition:
     add x1, x1, LDIGITS
 
     mov ULSUM, 0
+    bcc overflow1
+    mov ULSUM, 1
 
 overflow1:
     // ulSum += oAddend1->aulDigits[lIndex];
     ldr x2, [OADDEND1, x1]
-    adcs ULSUM, ULSUM, x2
+    adds ULSUM, ULSUM, x2
     //bcs overflow1Set
 
-overflow2:
     // ulSum += oAddend2->aulDigits[lIndex];
     ldr x2, [OADDEND2, x1]
-    adcs ULSUM, ULSUM, x2
+    adds ULSUM, ULSUM, x2
     //b endOverflow
 
 //overflow1Set:
