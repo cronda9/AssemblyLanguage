@@ -124,21 +124,16 @@ overflow1:
     // ulSum += oAddend1->aulDigits[lIndex];
     ldr x2, [OADDEND1, x1]
     adds ULSUM, ULSUM, x2
-    //bcs overflow1Set
+    bcs other
 
     // ulSum += oAddend2->aulDigits[lIndex];
     ldr x2, [OADDEND2, x1]
     adds ULSUM, ULSUM, x2
-    //b endOverflow
+    b endOverflow
 
-//overflow1Set:
-    //ldr x2, [OADDEND2, x1]
-   // add ULSUM, ULSUM, x2
-
-//overflow2Set:
-    //ldr x2, [OADDEND2, x1]
-   // adc ULSUM, ULSUM, x2
-    //b endOverflow
+ other:
+    ldr x2, [OADDEND2, x1]
+    add ULSUM, ULSUM, x2
 
 endOverflow:
 
