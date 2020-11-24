@@ -8,12 +8,12 @@ Chrisitan Ronda
 ------------------------------------------------------------------------
 Student 2: What is your name?
 
-
+no partner
 
 ------------------------------------------------------------------------
 How many late days are you using on this assignment?
 
-
+1
 
 ------------------------------------------------------------------------
 Student 1: What authorized sources of information did you use to
@@ -21,7 +21,21 @@ complete the assignment? COPY THE LIST of authorized sources of
 information given in the "Policies" web page to this section of the
 readme file, and edit it as appropriate.
 
+The course's lectures.
 
+The course's precepts.
+
+The course's website.
+
+Documents that are referenced directly by the course's website. Such documents include the course's lecture slides and precept handouts.
+
+The course's textbooks.
+
+The man pages on the armlab cluster.
+
+The course's current staff members outside of class time through Ed.
+
+Current lab teaching assistants through visits to the course labs.
 
 ------------------------------------------------------------------------
 Student 2: What authorized sources of information did you use to
@@ -43,7 +57,7 @@ nature of the interaction, may additionally require the interaction
 being reported to the Committee on Discipline. Write "None" if you used
 no unauthorized sources of information.
 
-
+none
 
 ------------------------------------------------------------------------
 Student 2: What unauthorized sources of information did you use to
@@ -63,7 +77,8 @@ no unauthorized sources of information.
 Student 1: What is your assessment of the assignment? Was it helpful?
 Was it fun?
 
-
+It was very helpful in understanding how assembly language worked.  
+Part 2f was fun, but defintely a little tedious and confusing at times.
 
 ------------------------------------------------------------------------
 Student 2: What is your assessment of the assignment? Was it helpful?
@@ -95,8 +110,4 @@ Part 2d:  7.730 seconds
 
 Part 2e:  3.950 seconds
 
-Part 2f:  3.07 seconds
-
-
-
-
+Part 2f:  2.520 seconds
