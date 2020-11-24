@@ -144,7 +144,7 @@ carry:  /* Check for a carry out of the last "column" of the addition. */
 
     // if (ulCarry != 1) goto endMaxDigits;
     cmp x0, 1
-    bne endMaxDigits
+    bne endCarry
 
 maxDigits:
 
