@@ -158,16 +158,14 @@ endOverflow2:
      
     // if(lIndex < lSumLength) goto loop;
     sub x1, LINDEX, LSUMLENGTH
-    cmp x1, 0
-    blt addition
+    cbnz x1, addition
 
 endAddition:
 
 carry:  /* Check for a carry out of the last "column" of the addition. */
 
     // if (ulCarry != 1) goto endMaxDigits;
-    mrs x0, nzcv
-    cmp x0, 1
+    cmp ULCARRY, 1
     bne endCarry
 
 maxDigits:
