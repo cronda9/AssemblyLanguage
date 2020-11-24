@@ -149,17 +149,12 @@ after:
 
 endAddition:
 
-carry:  /* Check for a carry out of the last "column" of the addition. */
-
-    // if (ulCarry != 1) goto endMaxDigits;
-    cmp x0, 1
-    bne endCarry
 
 maxDigits:
 
     // if (lSumLength != MAX_DIGITS) goto endMaxDigits;
     cmp LSUMLENGTH, MAX_DIGITS
-    bne endMaxDigits
+    bne endCarry
 
     // Epilogue and return FALSE
     mov x0, FALSE
@@ -172,16 +167,6 @@ maxDigits:
     ldr x24, [sp, 48]
     add sp, sp, BIGINT_ADD_STACKCOUNT
     ret
-
-endMaxDigits:
-
-    // oSum->aulDigits[lSumLength] = 1;
-    add x0, OSUM, LDIGITS
-    mov x1, 1
-    str x1, [x0, LSUMLENGTH, lsl 3]
-
-    // lSumLength++;
-    add LSUMLENGTH, LSUMLENGTH, 1
 
 endCarry:
 
