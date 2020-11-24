@@ -116,10 +116,19 @@ addition:
     // ulSum += oAddend1->aulDigits[lIndex];
     ldr x2, [OADDEND1, x1]
     adcs ULSUM, ULSUM, x2
+    bcs after
 
     // ulSum += oAddend2->aulDigits[lIndex];
     ldr x2, [OADDEND2, x1]
     adcs ULSUM, ULSUM, x2
+    b after2
+
+after:
+
+    ldr x2, [oAddend2, x1]
+    add ULSUM, ULSUM, x2 
+
+after2:
 
     // oSum->aulDigits[lIndex] = ulSum;
     str ULSUM, [OSUM, x1]
@@ -136,10 +145,7 @@ endAddition:
 carry:  /* Check for a carry out of the last "column" of the addition. */
 
     // if (ulCarry != 1) goto endCarry;
-    cmp
-    mrs w0, [pstate, 29]
-    cmp w0, 1
-    bne endCarry
+    bcc endCarry
 
 maxDigits:
 
