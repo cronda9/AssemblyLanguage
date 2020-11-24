@@ -125,7 +125,7 @@ addition:
 
 after:
 
-    ldr x2, [oAddend2, x1]
+    ldr x2, [OADDEND1], x1]
     add ULSUM, ULSUM, x2 
 
 after2:
