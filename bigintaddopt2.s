@@ -170,7 +170,7 @@ endMaxDigits:
     //str x1, [x0, LSUMLENGTH, lsl 3]
 
     // lSumLength++;
-    add LSUMLENGTH, LSUMLENGTH, 1
+    //add LSUMLENGTH, LSUMLENGTH, 1
 
 endCarry:
 
