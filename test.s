@@ -144,7 +144,7 @@ endOverflow:
     // lIndex++;
     add LINDEX, LINDEX, 1
 
-    mrs x0, [nzcv]
+    mrs x0, nzcv
      
     // if(lIndex < lSumLength) goto loop;
     cmp LINDEX, LSUMLENGTH
