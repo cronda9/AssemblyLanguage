@@ -116,6 +116,9 @@ addition:
     lsl x1, LINDEX, 3
     add x1, x1, LDIGITS
 
+    mov ULSUM, 0
+
+overflow:
     // ulSum += oAddend1->aulDigits[lIndex];
     ldr x2, [OADDEND1, x1]
     adcs ULSUM, ULSUM, x2
