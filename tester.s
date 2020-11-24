@@ -45,7 +45,6 @@ printfLongFormat:
     .equ LDIGITS, 8 // Struct offset for long array
 
     // BigInt_add local variable registers:
-    ULCARRY     .req x25
     LSUMLENGTH  .req x24 // callee-saved register
     LINDEX      .req x23 // callee-saved register
     ULSUM       .req x22 // callee-saved register
@@ -68,7 +67,6 @@ BigInt_add:
     str x22, [sp, 32]
     str x23, [sp, 40]
     str x24, [sp, 48]
-    str x25, [sp, 56]
 
     // Store parameters in registers
     mov OADDEND1, x0
@@ -113,16 +111,10 @@ endClear:
     beq endAddition 
 
     // Perform the addition. */
-    // ulCarry = 0;
-    mov ULCARRY, 0 
-
 addition:
 
-    // ulSum = ulCarry;
+    // reset ULSUM to 0;
     mov ULSUM, 0 
-
-    //ulCarry = 0;
-    //mov ULCARRY, 0
 
     // x1 = aulDigits + [lIndex]
     lsl x1, LINDEX, 3
@@ -133,9 +125,6 @@ addition:
     adcs ULSUM, ULSUM, x2
     bcc endOverflow1
 
-carry1:
-    // ulCarry = 1;
-    //mov ULCARRY, 1
     ldr x2, [OADDEND2, x1]
     add ULSUM, ULSUM, x2
     b endOverflow2
@@ -145,11 +134,6 @@ endOverflow1:
     // ulSum += oAddend2->aulDigits[lIndex];
     ldr x2, [OADDEND2, x1]
     adcs ULSUM, ULSUM, x2
-    //bcc endOverflow2
-
-carry2:
-    // ulCarry = 1;
-    //mov ULCARRY, 1
 
 endOverflow2:
 
@@ -185,7 +169,6 @@ maxDigits:
     ldr x22, [sp, 32]
     ldr x23, [sp, 40]
     ldr x24, [sp, 48]
-    ldr x25, [sp, 56]
     add sp, sp, BIGINT_ADD_STACKCOUNT
     ret
 
@@ -215,7 +198,6 @@ endCarry:
     ldr x22, [sp, 32]
     ldr x23, [sp, 40]
     ldr x24, [sp, 48]
-    ldr x25, [sp, 56]
     add sp, sp, BIGINT_ADD_STACKCOUNT
     ret
 
