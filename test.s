@@ -143,12 +143,20 @@ endOverflow:
 
     // lIndex++;
     add LINDEX, LINDEX, 1
+
+    mrs x0, [nzcv]
      
     // if(lIndex < lSumLength) goto loop;
     cmp LINDEX, LSUMLENGTH
     blt addition
 
 endAddition:
+
+carry:  /* Check for a carry out of the last "column" of the addition. */
+
+    // if (ulCarry != 1) goto endMaxDigits;
+    cmp x0, 1
+    bne endMaxDigits
 
 maxDigits:
 
@@ -169,6 +177,16 @@ maxDigits:
     ret
 
 endMaxDigits:
+
+    // oSum->aulDigits[lSumLength] = 1;
+    add x0, OSUM, LDIGITS
+    mov x1, 1
+    str x1, [x0, LSUMLENGTH, lsl 3]
+
+    // lSumLength++;
+    add LSUMLENGTH, LSUMLENGTH, 1
+
+endCarry:
 
     // Set the length of the sum.
     // oSum->lLength = lSumLength;
