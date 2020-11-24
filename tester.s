@@ -165,8 +165,7 @@ endAddition:
 carry:  /* Check for a carry out of the last "column" of the addition. */
 
     // if (ulCarry != 1) goto endMaxDigits;
-    mrs x0, nzcv
-    cmp x0, 1
+    cmp ULCARRY, 1
     bne endCarry
 
 maxDigits:
