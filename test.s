@@ -118,17 +118,18 @@ addition:
     lsl x1, LINDEX, 3
     add x1, x1, LDIGITS
 
-    mov ULSUM, 0
+    mov ULSUM, x0
 
-A:
     ldr x2, [OADDEND1, x1]
-    adcs ULSUM, ULSUM, x2
+    adds ULSUM, ULSUM, x2
 
-B:
     ldr x2, [OADDEND2, x1]
     adds ULSUM, ULSUM, x2
 
-C:
+
+    ldr x2, [OADDEND2, x1]
+    adds ULSUM, ULSUM, x2
+
     // oSum->aulDigits[lIndex] = ulSum;
     str ULSUM, [OSUM, x1]
 
