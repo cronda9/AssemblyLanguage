@@ -68,7 +68,7 @@ BigInt_add:
     str x22, [sp, 32]
     str x23, [sp, 40]
     str x24, [sp, 48]
-    str x24, [sp, 56]
+    str x25, [sp, 56]
 
     // Store parameters in registers
     mov OADDEND1, x0
