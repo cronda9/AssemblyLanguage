@@ -114,8 +114,6 @@ endClear:
     cmp LINDEX, LSUMLENGTH
     beq endAddition 
 
-endClear:
-
     // Perform the addition. */
     // ulCarry = 0;
     mov ULCARRY, 0 
