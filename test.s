@@ -120,21 +120,15 @@ addition:
 
     mov ULSUM, 0
 
-overflow1:
+A:
     ldr x2, [OADDEND1, x1]
     adcs ULSUM, ULSUM, x2
-    bcc overflow2
 
-    add ULSUM, ULSUM, 1
-
-overflow2:
+B:
     ldr x2, [OADDEND2, x1]
     adds ULSUM, ULSUM, x2
-    bcc after
 
-    add ULSUM, ULSUM, 1
-
-after:
+C:
     // oSum->aulDigits[lIndex] = ulSum;
     str ULSUM, [OSUM, x1]
 
@@ -149,12 +143,17 @@ after:
 
 endAddition:
 
+carry:  /* Check for a carry out of the last "column" of the addition. */
+
+    // if (ulCarry != 1) goto endMaxDigits;
+    cmp x0, 1
+    bne endCarry
 
 maxDigits:
 
     // if (lSumLength != MAX_DIGITS) goto endMaxDigits;
     cmp LSUMLENGTH, MAX_DIGITS
-    bne endCarry
+    bne endMaxDigits
 
     // Epilogue and return FALSE
     mov x0, FALSE
@@ -167,6 +166,16 @@ maxDigits:
     ldr x24, [sp, 48]
     add sp, sp, BIGINT_ADD_STACKCOUNT
     ret
+
+endMaxDigits:
+
+    // oSum->aulDigits[lSumLength] = 1;
+    add x0, OSUM, LDIGITS
+    mov x1, 1
+    str x1, [x0, LSUMLENGTH, lsl 3]
+
+    // lSumLength++;
+    add LSUMLENGTH, LSUMLENGTH, 1
 
 endCarry:
 
