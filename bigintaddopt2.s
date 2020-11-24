@@ -116,31 +116,16 @@ addition:
     lsl x1, LINDEX, 3
     add x1, x1, LDIGITS
 
-    bcs carried
     mov ULSUM, 0
-    b overflow
-
- carried:
-
-    mov ULSUM, 1   
 
 overflow:
     // ulSum += oAddend1->aulDigits[lIndex];
     ldr x2, [OADDEND1, x1]
     adcs ULSUM, ULSUM, x2
-    bcs after
 
     // ulSum += oAddend2->aulDigits[lIndex];
     ldr x2, [OADDEND2, x1]
     adcs ULSUM, ULSUM, x2
-    b after2
-
-after:
-
-    ldr x2, [OADDEND1, x1]
-    add ULSUM, ULSUM, x2 
-
-after2:
 
     // oSum->aulDigits[lIndex] = ulSum;
     str ULSUM, [OSUM, x1]
