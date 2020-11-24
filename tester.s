@@ -168,8 +168,7 @@ endAddition:
 carry:  /* Check for a carry out of the last "column" of the addition. */
 
     // if (ulCarry != 1) goto endMaxDigits;
-    cmp ULCARRY, 1
-    bne endCarry
+    bcc endMaxDigits
 
 maxDigits:
 
