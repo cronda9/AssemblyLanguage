@@ -107,6 +107,7 @@ endClear:
     // lIndex = 0;
     mov LINDEX, 0
 
+    // if (lIndex == lSumLength)
     cmp LINDEX, LSUMLENGTH
     beq endAddition 
 
@@ -152,7 +153,8 @@ endAddition:
 carry:  /* Check for a carry out of the last "column" of the addition. */
 
     // if (ulCarry != 1) goto endCarry;
-    bcc endCarry
+    bcs maxDigits
+    b endCarry
 
 maxDigits:
 
