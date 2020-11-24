@@ -155,6 +155,9 @@ endOverflow2:
 
     // lIndex++;
     add LINDEX, LINDEX, 1
+
+    // set carry flag
+    mov x0, nzcv
      
     // if(lIndex < lSumLength) goto loop;
     cmp LINDEX, LSUMLENGTH

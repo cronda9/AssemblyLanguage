@@ -80,8 +80,7 @@ BigInt_add:
     ldr LSUMLENGTH, [OADDEND1, LLENGTH] // LSUMLENGTH --> oAddend1->lLength
     ldr x1, [OADDEND2, LLENGTH] // x1 --> oAddend2->lLength
     cmp LSUMLENGTH, x1 
-    ble else1
-    b clear
+    bgt clear
 
 else1:
 
