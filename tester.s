@@ -74,15 +74,15 @@ BigInt_add:
     mov OSUM, x2
 
     // Determine the larger length.
-    // if(oAddend1->lLength <= oAddend2->lLength) goto else1;
+    // Assume oAddend1 length is longer, set to lSumLength
     ldr LSUMLENGTH, [OADDEND1, LLENGTH] // LSUMLENGTH --> oAddend1->lLength
-    ldr x1, [OADDEND2, LLENGTH] // x1 --> oAddend2->lLength
+    ldr x1, [OADDEND2, LLENGTH]         // x1 --> oAddend2->lLength
     cmp LSUMLENGTH, x1 
     bgt clear
     
 else1:
 
-    // move larger length into LSUMLENGTH
+    // Handles when oAddend2->length is longer
     mov LSUMLENGTH, x1
 
 clear:
@@ -120,18 +120,21 @@ addition:
     lsl x1, LINDEX, 3
     add x1, x1, LDIGITS
 
-    // ulSum += oAddend1->aulDigits[lIndex];
+    // ulSum += oAddend1->aulDigits[lIndex]; 
+    // adds C flad based on previous iteration, sets new C flag value
     ldr x2, [OADDEND1, x1]
     adcs ULSUM, ULSUM, x2
     bcc endOverflow1
 
+    // If C flag was set on above addition, dont add C flag or set it
     ldr x2, [OADDEND2, x1]
     add ULSUM, ULSUM, x2
     b endOverflow2
 
 endOverflow1: 
 
-    // ulSum += oAddend2->aulDigits[lIndex];
+    // ulSum += oAddend1->aulDigits[lIndex]; 
+    // adds C flad based on previous iteration, sets new C flag value
     ldr x2, [OADDEND2, x1]
     adcs ULSUM, ULSUM, x2
 
@@ -143,7 +146,8 @@ endOverflow2:
     // lIndex++;
     add LINDEX, LINDEX, 1
      
-    // if(lIndex < lSumLength) goto loop;
+    // if(lIndex < lSumLength) goto addition;
+    // Similar to cmp + blt but without setting C flag
     sub x1, LINDEX, LSUMLENGTH
     cbnz x1, addition
 
@@ -151,7 +155,7 @@ endAddition:
 
 carry:  /* Check for a carry out of the last "column" of the addition. */
 
-    // if (ulCarry != 1) goto endMaxDigits;
+    // if C flag == 0 goto endMaxDigits;
     bcc endCarry
 
 maxDigits:
