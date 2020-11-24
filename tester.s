@@ -136,6 +136,9 @@ addition:
 carry1:
     // ulCarry = 1;
     mov ULCARRY, 1
+    ldr x2, [OADDEND2, x1]
+    add ULSUM, ULSUM, x2
+    b endOverflow2
 
 endOverflow1: 
 
