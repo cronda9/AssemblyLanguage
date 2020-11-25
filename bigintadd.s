@@ -115,40 +115,34 @@ BigInt_add:
 
     // Determine the larger length.
     // lSumLength = BigInt_larger(oAddend1->lLength, oAddend2->lLength);
-        // Puts oAddend1 -> lLength into x0
+        // x0 = Puts oAddend1 -> lLength 
     ldr x0, [sp, OADDEND1]
-    add x0, x0, LLENGTH
-    ldr x0, [x0]
-        // Puts oAddend2 -> lLength into x1
+    ldr x0, [x0, LLENGTH]
+        // x1 = oAddend2 -> lLength
     ldr x1, [sp, OADDEND2]
-    add x1, x1, LLENGTH
-    ldr x1, [x1]
+    ldr x1, [x1, LLENGTH] 
     bl BigInt_larger
     str x0, [sp, LSUMLENGTH]
 
     // Clear oSum's array if necessary. 
-
 clear:
 
     // if (oSum->lLength <= lSumLength) goto endClear;
-        // x0 --> oSum -> lLength 
+        // x0 = oSum -> lLength 
     ldr x0, [sp, OSUM]
-    add x0, x0, LLENGTH
-    ldr x0, [x0]
-        // x1 --> lSumLength  
+    ldr x0, [x0, LLENGTH]
+        // x1 = lSumLength  
     ldr x1, [sp, LSUMLENGTH]
-        // oSum->lLength <= lSumLength
     cmp x0, x1
-        // goto endClear
     ble endClear
 
     // memset(oSum->aulDigits, 0, MAX_DIGITS * sizeof(unsigned long));
-        // x0 --> oSum -> aulDigits into x0
+        // x0 = oSum -> aulDigits into x0
     ldr x0, [sp, OSUM]
     add x0, x0, LDIGITS
-        // x1 --> 0 
+        // x1 = 0 
     mov x1, 0
-        // x2 --> MAX_DIGITS * sizeof(unsigned long) into x2
+        // x2 = MAX_DIGITS * sizeof(unsigned long) into x2
     mov x2, MAX_DIGITS
     mov x3, SIZEOF_ULONG
     mul x2, x2, x3
@@ -157,10 +151,10 @@ clear:
 endClear:
 
     // Perform the addition. */
-    //ulCarry = 0;
+        // ulCarry = 0;
     mov x0, 0
     str x0, [sp, ULCARRY]
-    //lIndex = 0;
+        // lIndex = 0;
     str x0, [sp, LINDEX]
 
 
@@ -172,20 +166,26 @@ addition:
     bge endAddition
 
     // ulSum = ulCarry;
-    ldr x0, [sp, ULCARRY] // x0 --> mem addres of ulCarry
+        // x0 =  ulCarry
+    ldr x0, [sp, ULCARRY]
     str x0, [sp, ULSUM] 
     
-    //ulCarry = 0;
+        //ulCarry = 0;
     mov x1, 0
     str x1, [sp, ULCARRY]
 
     // ulSum += oAddend1->aulDigits[lIndex];
     ldr x0, [sp, OADDEND1]
-    add x0, x0, LDIGITS // x0 --> oAddend1->aulDigits
-    ldr x1, [sp, LINDEX] // x1 --> lIndex
-    ldr x0, [x0, x1, lsl 3] // x0 --> oAddend1->aulDigits[lIndex]
-    ldr x2, [sp, ULSUM] // x2 --> ulSum
-    add x1, x0, x2 // x1 --> ulSum + oAddend1->aulDigits[lIndex]
+        // x0 = oAddend1->aulDigits
+    add x0, x0, LDIGITS 
+        // x1 = lIndex
+    ldr x1, [sp, LINDEX] 
+        // x0 = oAddend1->aulDigits[lIndex]
+    ldr x0, [x0, x1, lsl 3]
+        // x2 = ulSum
+    ldr x2, [sp, ULSUM] 
+        // x1 = ulSum + oAddend1->aulDigits[lIndex]
+    add x1, x0, x2 
     str x1, [sp, ULSUM]
 
 overflow1:
@@ -202,10 +202,14 @@ endOverflow1: // check for overflow
 
     // ulSum += oAddend2->aulDigits[lIndex];
     ldr x0, [sp, OADDEND2]
-    add x0, x0, LDIGITS // x0 --> oAddend2->aulDigits
-    ldr x1, [sp, LINDEX] // x1 --> lIndex 
-    ldr x0, [x0, x1, lsl 3] // x0 --> oAddend2->aulDigits[lIndex]
-    ldr x2, [sp, ULSUM] // x1 --> ulSum mem address
+        // x0 = oAddend2->aulDigits
+    add x0, x0, LDIGITS 
+        // x1 = lIndex 
+    ldr x1, [sp, LINDEX] 
+        // x0 = oAddend2->aulDigits[lIndex]
+    ldr x0, [x0, x1, lsl 3] 
+        // x2 = ulSum 
+    ldr x2, [sp, ULSUM] 
     add x1, x0, x2
     str x1, [sp, ULSUM]
 
@@ -223,9 +227,12 @@ endOverflow2:
 
     // oSum->aulDigits[lIndex] = ulSum;
     ldr x0, [sp, OSUM]
-    add x0, x0, LDIGITS // x0 --> oSum->aulDigits
-    ldr x1, [sp, LINDEX] // x1 --> lIndex
-    ldr x2, [sp, ULSUM] // x2 --> ulSum
+        // x0 = oSum->aulDigits
+    add x0, x0, LDIGITS 
+        // x1 = lIndex
+    ldr x1, [sp, LINDEX] 
+        // x2 = ulSum
+    ldr x2, [sp, ULSUM] 
     str x2, [x0, x1, lsl 3]
 
     // lIndex++;

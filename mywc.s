@@ -3,6 +3,7 @@
 // Author: Christian Ronda
 //----------------------------------------------------------------------
 
+    // In lieu of a boolean data type.
     .equ FALSE, 0
     .equ TRUE, 1
 
