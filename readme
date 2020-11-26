@@ -96,7 +96,57 @@ particular, what bugs are in your submission?
 ------------------------------------------------------------------------
 What is your mywc program test plan?
 
+Boundary tests:
 
+    mywcBT1.txt: This text file consists of two words on each line sperated
+    by a different number of spaces, and on the last line seprated by a tab.
+    This tests mywc.c and mywc.s ability to increment the character count 
+    while not incrementing the word count with each consecutive space. also 
+    it tests the two prgrams ability to read the tab key as a series of spaces.
+
+    mywcBT2.txt: This text file is empty and thus tests mywc.c and mywc.s
+    ability to handle empty input and not increment any counter.  
+
+    mywcBT3.txt:  This file starts with several new line keys, followed by
+    a tab, and then three lines of characters.  This tests mywc.c and mywc.s
+    ability to handle when the first few inputs are not alphabetical letters, 
+    and when a tab starts a line.
+
+
+Statement tests:
+
+    mywcST1.txt: This file contains one word with no spaces or new line 
+    characters, and so causes the computer to execute lines 30, 32, 42, 44, 45,
+    48, 52, 53, 55, and 56 of the given mywc.c
+
+    mywcST1.txt: This file contains two words with a space inbetween, and
+    a newline character, and so causes the computer to execute lines 
+    30-50, 52, 55, and 56 of the given mywc.c.  Thus the combination of these
+    two statement tests test all the lines of mywc.c, and therefor mywc.s
+
+
+Stress tests:
+
+    mywcSST1.txt: This stress test contains a random sequence of 10,000 randomly
+    generate characters.  This tests both mywc.c and mywc.s
+    ability to handle a very large text file.
+
+    mywcSST2.txt: This stress test contains a variety of only spaces,
+    tabs, and newlines.  This tests mywc.c and mywc.s ability to 
+    update character and line count while keeping the word count 0.
+    In particular, it tests the ability to never enter the if(iInWord)
+    conditional statement, while running through the rest of the code.
+
+    mywcSST3.txt: This stress test is a single line of one long word 
+    consisting of varying upper and lower case A's.  This test employs 
+    almost the inverse of stress test 2, which tests mywc.c and mywc.s
+    ability to handle a single word with a lot of charcters.  In particular
+    both mywc.c and mywc.s should interate 153 times while never entering
+    the main if(isspace(iChar)) condition.
+
+    mywcSST4.txt: This stress test contains all the ASCII characters denoted
+    by 09, 0A, and 20-7E.  This tests mywc.c and mywc.s ability to read in 
+    other characters besides just letters.
 
 ------------------------------------------------------------------------
 What are the CPU times consumed by the programs from Parts 2a, 2b, 2d,
